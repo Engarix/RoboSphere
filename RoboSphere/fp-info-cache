@@ -1,4 +1,11 @@
-24737348794521065
+24739130108711493
+1085
+MODULE_1085
+
+
+0
+16
+16
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -64644,6 +64651,13 @@ solder jumper open
 0
 3
 3
+L7806CV
+TO255P1020X450X1968-3B
+
+
+0
+3
+3
 LED_SMD
 LED-APA102-2020
 http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf
@@ -87639,13 +87653,6 @@ Potentiometer vertical vishay
 0
 3
 3
-RASPBERRY_PI_ZERO_2_W
-MODULE_RASPBERRY_PI_ZERO_2_W
-
-
-0
-40
-40
 RF
 Skyworks_SKY13575_639LF
 http://www.skyworksinc.com/uploads/documents/SKY13575_639LF_203270D.pdf
