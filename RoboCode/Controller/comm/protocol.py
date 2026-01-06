@@ -7,10 +7,8 @@ class Command:
     args: tuple
 
 
-class ProtocolError:
-    def __init__(self, message):
-        print(message)
-        pass
+class ProtocolError(Exception):
+    pass
 
 
 def parse_command(raw: str) -> Command:
@@ -46,6 +44,9 @@ def format_command(cmd: Command) -> bytes:
     if not isinstance(cmd, Command):
         raise ProtocolError("Expected a Command object")
 
-    cmd_str = f"{cmd.name} {cmd.args[0]} {cmd.args[1]}"
+    if cmd.name == "MOVE":
+        cmd_str = f"{cmd.name} {cmd.args[0]} {cmd.args[1]}"
+    else:
+        cmd_str = f"{cmd.name}"
 
     return (cmd_str + "\n").encode("utf-8")

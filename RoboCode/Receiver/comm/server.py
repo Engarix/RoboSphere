@@ -25,7 +25,7 @@ class CommandServer:
 
     def handle_client(self, conn: socket.socket):
         with conn:
-            conn.settimeout(0.1)
+            conn.settimeout(0.05)
 
             while True:
                 try:

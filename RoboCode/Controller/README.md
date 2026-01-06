@@ -4,8 +4,8 @@
 ### Basic Movement
 * UP - Forward
 * DOWN - Backwards
-* LEFT - Standing still, left wheel forward, right wheel backwards
-* RIGHT - Standing still, left wheel backwards, right wheel forwards
+* LEFT - Rotate left
+* RIGHT - Rotate right
 
 ### Advanced Movement
 * UP + LEFT - Forward with left turn 45 degrees
@@ -15,5 +15,17 @@
 
 ## Commands:
 ### MOVE
-MOVE 
+MOVE 1 0 : Forward
+
+MOVE -1 0 : Backward
+
+MOVE 0 -1 : Rotate Left
+
+MOVE 0 1 : Rotate Right
+
+...
+
+### STOP
+
+### PING
 
