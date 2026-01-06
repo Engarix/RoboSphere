@@ -14,7 +14,8 @@
 * DOWN + RIGHT - Backwards with right turn 45 degrees
 
 ## Commands:
-### MOVE
+### **MOVE** **dx** **dy** 
+
 MOVE 1 0 : Forward
 
 MOVE -1 0 : Backward
@@ -27,5 +28,9 @@ MOVE 0 1 : Rotate Right
 
 ### STOP
 
+Stops everything
+
 ### PING
+
+Sends a command to check if there is still connection. Recieves PONG.
 
