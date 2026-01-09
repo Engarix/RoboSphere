@@ -9,6 +9,7 @@ class CommandServer:
         self.port = port
         self.controller = controller
         self.client_state = ClientState(timeout)
+        print("Server initialized")
 
     def start(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -25,7 +26,7 @@ class CommandServer:
 
     def handle_client(self, conn: socket.socket):
         with conn:
-            conn.settimeout(0.05)
+            conn.settimeout(self.client_state.timeout)
 
             while True:
                 try:
@@ -63,6 +64,9 @@ class CommandServer:
 
             elif cmd.name == "PING":
                 conn.sendall(b"PONG\n")
+
+            elif cmd.name == "INFO":
+                print(f"[INFO] {' '.join(cmd.args)}")
 
         except ProtocolError as e:
             conn.sendall(f"ERR {e}\n".encode("utf-8"))

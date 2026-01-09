@@ -1,6 +1,5 @@
 import time
 
-
 class ClientState:
     def __init__(self, timeout: float):
         self.timeout = timeout
