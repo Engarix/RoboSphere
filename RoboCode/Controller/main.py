@@ -16,18 +16,19 @@ class Main:
     def __init__(self):
         try:
             self.client = CommandClient(host="127.0.0.1", port=8080)
-            self.client.connect()
-            self.client.send_command(parse_command("PING"))
-
-            # Uruchamiamy listener w osobnym wątku
-            listener_thread = threading.Thread(target=self.keyboard_listener)
-            listener_thread.daemon = True
-            listener_thread.start()
-
-            # Główny loop
-            while self.client.connected:
-                time.sleep(50)
+            while self.client.connected==False:
+                self.client.connect()
                 self.client.send_command(parse_command("PING"))
+
+                # Uruchamiamy listener w osobnym wątku
+                listener_thread = threading.Thread(target=self.keyboard_listener)
+                listener_thread.daemon = True
+                listener_thread.start()
+
+                # Główny loop
+                while self.client.connected:
+                    time.sleep(50)
+                    self.client.send_command(parse_command("PING"))
 
         except Exception as e:
             self.client.close()
