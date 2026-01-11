@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  11 JAN 2026 02:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  11 JAN 2026 03:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1127,11 +1127,11 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 \openout2 = `chapters/Build/Circuit.aux'.
 
  (chapters/Build/Circuit.tex
-<images/powerModule.png, id=194, 740.0147pt x 406.51875pt>
+<images/powerModule.png, id=194, 1132.23pt x 514.92375pt>
 File: images/powerModule.png Graphic file (type png)
 <use images/powerModule.png>
 Package pdftex.def Info: images/powerModule.png  used on input line 5.
-(pdftex.def)             Requested size: 364.19667pt x 200.07054pt.
+(pdftex.def)             Requested size: 364.19667pt x 165.62752pt.
  [6
 
  <./images/powerModule.png>]
@@ -1162,9 +1162,39 @@ File: images/model2.png Graphic file (type png)
 <use images/model2.png>
 Package pdftex.def Info: images/model2.png  used on input line 40.
 (pdftex.def)             Requested size: 364.19667pt x 358.68796pt.
-) [10 <./images/model1.png>] [11 <./images/model2.png>]
+<images/Box.png, id=222, 801.74532pt x 670.00313pt>
+File: images/Box.png Graphic file (type png)
+<use images/Box.png>
+Package pdftex.def Info: images/Box.png  used on input line 47.
+(pdftex.def)             Requested size: 364.19667pt x 304.36118pt.
+<images/MotorBox.png, id=223, 602.25pt x 663.98062pt>
+File: images/MotorBox.png Graphic file (type png)
+<use images/MotorBox.png>
+Package pdftex.def Info: images/MotorBox.png  used on input line 54.
+(pdftex.def)             Requested size: 364.19667pt x 401.54234pt.
+<images/Bridge.png, id=224, 417.05812pt x 383.18156pt>
+File: images/Bridge.png Graphic file (type png)
+<use images/Bridge.png>
+Package pdftex.def Info: images/Bridge.png  used on input line 61.
+(pdftex.def)             Requested size: 364.19667pt x 334.63403pt.
+<images/PendulumHook.png, id=225, 570.63188pt x 481.8pt>
+File: images/PendulumHook.png Graphic file (type png)
+<use images/PendulumHook.png>
+Package pdftex.def Info: images/PendulumHook.png  used on input line 68.
+(pdftex.def)             Requested size: 364.19667pt x 307.49814pt.
+<images/Pendulum.png, id=226, 513.41812pt x 666.99188pt>
+File: images/Pendulum.png Graphic file (type png)
+<use images/Pendulum.png>
+Package pdftex.def Info: images/Pendulum.png  used on input line 75.
+(pdftex.def)             Requested size: 364.19667pt x 473.14009pt.
+<images/Shell.png, id=227, 686.565pt x 694.09312pt>
+File: images/Shell.png Graphic file (type png)
+<use images/Shell.png>
+Package pdftex.def Info: images/Shell.png  used on input line 82.
+(pdftex.def)             Requested size: 364.19667pt x 368.18533pt.
+) [10 <./images/model1.png>] [11 <./images/model2.png>] [12 <./images/Box.png>] [13 <./images/MotorBox.png>] [14 <./images/Bridge.png> <./images/PendulumHook.png>] [15 <./images/Pendulum.png>] [16 <./images/Shell.png>]
 \bbl@ensure@polish {Rozdzia\l } 4.
-[12
+[17
 
 
 
@@ -1180,31 +1210,31 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [13
+ [18
 
-{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}]) [14]
+{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}]) [19]
 \bbl@ensure@polish {Rozdzia\l } 5.
-[15
+[20
 
 
 
 ]
 \openout2 = `chapters/Start.aux'.
 
- (chapters/Start.tex) [16
+ (chapters/Start.tex) [21
 
 ]
 \bbl@ensure@polish {Rozdzia\l } 6.
-[17
+[22
 
 
 
 ]
 \openout2 = `chapters/Summary.aux'.
 
- (chapters/Summary.tex) [18
+ (chapters/Summary.tex) [23
 
-] [19]
+] [24]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: a4paper
@@ -1248,20 +1278,20 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 04A78D71862664B16DC84427C9CFD2E3;6230.
+(rerunfilecheck)             Checksum: BB7954555746C414BE5D08DFD52E7F05;6230.
  ) 
 Here is how much of TeX's memory you used:
- 39738 strings out of 467871
- 876455 string characters out of 5418376
+ 39803 strings out of 467871
+ 877720 string characters out of 5418376
  1477150 words of memory out of 5000000
- 67756 multiletter control sequences out of 15000+600000
+ 67804 multiletter control sequences out of 15000+600000
  680830 words of font info for 150 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,11n,108p,1051b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (19 pages, 649964 bytes).
+Output written on main.pdf (24 pages, 1744235 bytes).
 PDF statistics:
- 329 PDF objects out of 1000 (max. 8388607)
- 66 named destinations out of 1000 (max. 500000)
- 29478 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 377 PDF objects out of 1000 (max. 8388607)
+ 83 named destinations out of 1000 (max. 500000)
+ 29508 words of extra memory for PDF output out of 29859 (max. 10000000)
 
