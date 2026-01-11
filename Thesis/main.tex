@@ -1,0 +1,145 @@
+\documentclass[12pt,a4paper, openany]{memoir}
+
+% Required packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+% Math symbols (\mathbb, \mathcal, etc.)
+\usepackage{amssymb}
+% Improve micro-typography to reduce overfull boxes
+\usepackage[final]{microtype}
+% Use Polish as main language; provide=* avoids error when language ini is present but ldf missing
+\usepackage[main=polish,provide=*]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{xurl}
+\hypersetup{hidelinks, hypertexnames=false}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{float}
+% Allow more floats and flexible page layout (helps with Underfull \vbox)
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\floatpagefraction}{0.9}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\bottomfraction}{0.9}
+\setcounter{topnumber}{5}
+\setcounter{bottomnumber}{5}
+\setcounter{totalnumber}{10}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{codeListingStyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\usepackage{graphics}
+
+\chapterstyle{veelo}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+% Set page margins
+\geometry{top=0cm, bottom=2cm, left=2cm, right=2cm}
+
+\begin{document}
+
+% Enable page numbers on all pages
+\pagestyle{plain}
+\pagenumbering{arabic}
+% Ensure chapter-opening pages also use the same pagestyle
+\aliaspagestyle{chapter}{plain}
+% Suppress page number on the very first page only
+\thispagestyle{empty}
+
+% Avoid stretching pages to equal height; reduces Underfull \vbox warnings
+\raggedbottom
+
+% Gently reduce Overfull \hbox warnings by allowing tiny extra stretch in lines
+\emergencystretch=1em
+
+% Add image at the top of the page
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/PJATK_PL_poziom_1.png}
+    \label{fig:top-image}
+\end{figure}
+
+% Centered content
+\begin{center}
+\vspace{2cm}
+
+{\Large \textbf{Wydział Informatyki}}
+
+\vspace{1.5cm}
+
+{\large  \textbf{Robotyka}}
+
+\vspace{2cm}
+
+{\large  \textbf{Marcin Ziółkowski}} \\
+Nr albumu s27597
+
+\vspace{2cm}
+
+{\Large \textbf{Kulista Maszyna Mobilna}}
+
+\end{center}
+
+\vfill
+
+\begin{flushleft}
+\hspace*{0.5\textwidth}Praca inżynierska \\
+\hspace*{0.5\textwidth}Promotor Maciej Maciejewski
+\end{flushleft}
+
+
+\vspace{2.5cm}
+
+\begin{center}
+Warszawa, luty, 2026
+\end{center}
+
+
+\newgeometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
+
+\tableofcontents
+
+\chapter{Wstęp}
+\include{chapters/Start}
+\chapter{CAD}
+\include{chapters/Build/CAD}
+\chapter{Budowa}
+\include{chapters/Build/Case}
+\chapter{Oprogramowanie}
+\include{chapters/Build/Code}
+\chapter{Inicjalizacja}
+\chapter{Podsumowanie}
+\include{chapters/Summary}
+
+\newgeometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+\end{document}
