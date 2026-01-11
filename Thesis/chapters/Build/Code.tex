@@ -1,3 +1,52 @@
-\section{Controler}
+\section{Aplikacja sterująca (Controller)}
 
-\section{Receiver}
+Aplikacja kliencka, uruchamiana na komputerze operatora, pełni rolę interfejsu sterującego, który przekłada interakcje użytkownika na komendy zrozumiałe dla jednostki wykonawczej Raspberry Pi. Architektura oprogramowania została zaprojektowana w sposób wielowątkowy, co zapewnia separację logiki komunikacji sieciowej od procesu monitorowania zdarzeń wejściowych.
+
+\subsection{Architektura klienta i komunikacja sieciowa}
+
+Rdzeniem modułu komunikacyjnego jest klasa \texttt{CommandClient}, odpowiedzialna za zarządzanie niskopoziomowym połączeniem TCP/IP. Implementacja wykorzystuje bibliotekę \texttt{socket} do nawiązywania strumieniowego połączenia z serwerem o określonym adresie IP i porcie (domyślnie 127.0.0.1:8080). Kluczowe funkcjonalności tego modułu obejmują:
+\begin{itemize}
+    \item \textbf{Zarządzanie sesją:} Automatyczne próby nawiązania połączenia w pętli głównej do momentu uzyskania statusu \texttt{connected}
+    \item \textbf{Serializacja danych:} Wykorzystanie modułu \texttt{protocol.py} do zamiany obiektów klasy \texttt{Command} na sformatowane ciągi znaków (np. \texttt{MOVE 1 0}) zakończone znakiem nowej linii, co jest zgodne z przyjętym standardem komunikacyjnym.
+    \item \textbf{Mechanizm Heartbeat:} Regularne przesyłanie komendy \texttt{PING} w celu weryfikacji aktywności łącza i otrzymywania odpowiedzi \texttt{PONG} od serwera.
+\end{itemize}
+
+\subsection{Przetwarzanie wejścia i mapowanie klawiszy}
+
+Interakcja z robotem odbywa się poprzez przechwytywanie zdarzeń klawiatury w czasie rzeczywistym. Za ten proces odpowiada dedykowany wątek \texttt{keyboard\_listener}, który zapobiega blokowaniu głównej pętli programu przez operacje wejścia/wyjścia.
+
+System sterowania wykorzystuje mapowanie \texttt{KEY\_MAP}, które przypisuje klawiszom strzałek odpowiednie wartości wektorowe $(dx, dy)$:
+\begin{itemize}
+    \item \textbf{Ruch liniowy:} Klawisze \texttt{up} (1, 0) oraz \texttt{down} (-1, 0) generują komendy jazdy odpowiednio do przodu i do tyłu.
+    \item \textbf{Ruch obrotowy:} Klawisze \texttt{left} (0, -1) oraz \texttt{right} (0, 1) odpowiadają za rotację robota wokół własnej osi.
+    \item \textbf{Sterowanie złożone:} Logika pętli pozwala na sumowanie wektorów przy jednoczesnym wciśnięciu kilku klawiszy (np. góra i lewo), co umożliwia płynne sterowanie kierunkowe pod kątem 45 stopni.
+\end{itemize}
+
+W celu optymalizacji pasma sieciowego, aplikacja przesyła nową komendę \texttt{MOVE} tylko w przypadku zmiany stanu wejścia lub wykrycia ciągłego wciśnięcia klawisza, zachowując przy tym interwał 50 ms pomiędzy kolejnymi aktualizacjami. Gwarantuje to wysoką responsywność układu przy minimalnym obciążeniu procesora jednostki Raspberry Pi Zero 2W.
+
+\section{Oprogramowanie wykonawcze (Receiver)}
+
+Moduł \texttt{Receiver} stanowi kluczowy element systemu, rezydujący bezpośrednio na platformie sprzętowej Raspberry Pi Zero 2W. Jego głównym zadaniem jest utrzymywanie stabilnego serwera komunikacyjnego, interpretacja przychodzących ramek danych oraz transformacja abstrakcyjnych komend ruchu na fizyczne sygnały sterujące silnikami robota.
+
+\subsection{Architektura serwera i obsługa połączeń}
+
+Za warstwę komunikacyjną odpowiada klasa \texttt{CommandServer}, która inicjalizuje gniazdo sieciowe TCP/IP i nasłuchuje na zadanym porcie (domyślnie 8080). System został zaprojektowany z myślą o obsłudze jednego klienta sterującego w danym momencie, co zapewnia wyłączność nad kontrolą urządzenia.
+
+W procesie obsługi klienta zaimplementowano mechanizmy zwiększające niezawodność:
+\begin{itemize}
+    \item \textbf{Analiza strumienia danych:} Dane odbierane przez gniazdo są dekodowane i dzielone na poszczególne linie, co pozwala na poprawne przetwarzanie komend nawet przy spiętrzeniu pakietów w buforze sieciowym.
+    \item \textbf{Zarządzanie stanem połączenia:} Klasa \texttt{ClientState} monitoruje aktywność klienta poprzez rejestrowanie czasu nadejścia ostatniej poprawnej ramki danych.
+    \item \textbf{System bezpieczeństwa (Failsafe):} W przypadku przekroczenia zdefiniowanego limitu czasu oczekiwania (\texttt{SOCKET\_TIMEOUT}), serwer automatycznie wywołuje procedurę zatrzymania silników i resetuje stan sterownika, co zapobiega niekontrolowanemu ruchowi robota po utracie łączności.
+\end{itemize}
+
+\subsection{Logika sterowania i warstwa sprzętowa}
+
+Otrzymane komendy tekstowe są parsowane przez moduł \texttt{protocol.py} na obiekty klasy \texttt{Command}, które trafiają do głównego kontrolera robota.
+
+Proces generowania ruchu przebiega w dwóch etapach:
+\begin{enumerate}
+    \item \textbf{Obliczenia kinematyczne:} Klasa \texttt{DiffDriveKinematics} przelicza wektor ruchu $(v, \omega)$ na docelowe prędkości lewego i prawego koła oraz prędkość wahadła (\texttt{pendulum\_speed}). Algorytm uwzględnia specyfikę robota kulistego, gdzie ruch obrotowy przy jeździe liniowej jest wspomagany wychyleniem wewnętrznego wahadła.
+    \item \textbf{Ramping prędkości:} Zastosowano metodę \texttt{\_approach}, która w każdym cyklu pracy zbliża aktualną prędkość silników do wartości docelowej o stały krok określony przez \texttt{ACCELERATION\_PERCENTAGE} (0.1). Pozwala to na uniknięcie gwałtownych szarpnięć, które mogłyby destabilizować ruch kuli lub uszkodzić mechanizmy wewnętrzne.
+\end{enumerate}
+
+Bezpośrednią kontrolę nad sprzętem sprawuje moduł \texttt{RobotDriver}, wykorzystujący bibliotekę \texttt{gpiozero}. Klasa \texttt{Motor} abstrahuje sterowanie pojedynczym silnikiem, zarządzając pinami kierunkowymi oraz wypełnieniem sygnału PWM (Pulse Width Modulation) na dedykowanych pinach zdefiniowanych w konfiguracji systemu.

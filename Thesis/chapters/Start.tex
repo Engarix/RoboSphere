@@ -1,45 +1,31 @@
-\section{Motywacja i tło projektu}
+\section{Inicjalizacja i procedura startowa systemu}
 
-Współczesna robotyka mobilna poszukuje rozwiązań pozwalających na poruszanie się w trudnych, 
-nieustrukturyzowanych środowiskach. Klasyczne roboty kołowe, mimo swojej prostoty, 
-często borykają się z problemem wywrócenia się lub zablokowania na przeszkodach. 
+Prawidłowe funkcjonowanie robota sferycznego wymaga skoordynowanej inicjalizacji wszystkich warstw systemowych – od niskopoziomowej konfiguracji pinów GPIO, przez logikę sterowania, aż po warstwę komunikacji sieciowej. Proces ten został zaprojektowany tak, aby zapewnić maksymalne bezpieczeństwo sprzętu już od momentu podania zasilania.
 
-\vspace{0.5cm}
+\subsection{Inicjalizacja warstwy sprzętowej (Hardware Layer)}
 
-Robot kulisty, dzięki swojej specyficznej budowie, oferuje unikalną odporność na tego typu zdarzenia. 
-Obudowa jest jednocześnie ochroną oraz elementem trakcyjnym, co sprawia, 
-że jest on naturalnie chroniony przed czynnikami zewnętrznymi.
-
-\vspace{0.5cm}
-
-Aktualność tematyki robotów kulistych potwierdzają najnowsze wdrożenia w obszarze bezpieczeństwa publicznego. 
-Przykładem pionierskiego rozwiązania jest chiński robot patrolowy RT-G, 
-który na przełomie 2024 i 2025 roku rozpoczął służbę w prowincji Zhejiang. 
-Urządzenie to, podobnie jak projekt opisany w niniejszej pracy, 
-wykorzystuje mechanizm wewnętrznego wahadła do poruszania się, 
-co pozwala mu na osiąganie dużych prędkości oraz sprawne manewrowanie zarówno na lądzie, 
-jak i w środowisku wodnym. 
-Zastosowanie napędu wahadłowego w robotach patrolowych pozwala na całkowitą izolację układów elektronicznych 
-oraz eliminuje ryzyko przewrócenia się maszyny, co czyni go idealnym narzędziem do 
-monitorowania trudnodostępnych przestrzeni miejskich.
-
-\section{Opis problemu technicznego}
-
-Głównym wyzwaniem w projektowaniu robota kulistego jest realizacja napędu przy zachowaniu szczelności i 
-integralności sfery. Zastosowanie mechanizmu z wahadłem 
-pozwala na zmianę położenia środka ciężkości wewnątrz kuli, co indukuje moment obrotowy i wymusza ruch toczny. 
-Sterowanie takim układem jest nietrywialne pod kątem matematycznym, 
-gdyż wymaga precyzyjnego operowania masą wahadła w celu uzyskania pożądanego wektora ruchu.
-
-\section{Cel i zakres pracy}
-
-Celem niniejszej pracy jest zaprojektowanie oraz budowa prototypu robota kulistego sterowanego za pomocą 
-wewnętrznego układu wahadłowego, opartego na jednostce Raspberry Pi Zero 2W. Zakres pracy obejmuje:
-
+Pierwszym etapem po uruchomieniu skryptu głównego na jednostce Raspberry Pi jest inicjalizacja obiektu klasy \texttt{RobotDriver}. W tym kroku system wykonuje następujące operacje:
 \begin{itemize}
-\item Opracowanie architektury sprzętowej wykorzystującej piny PWM do sterowania silnikami prądu stałego.
-\item Zaprojektowanie mechanicznej konstrukcji robota
-\item Implementację autorskiego protokołu komunikacyjnego opartego na gniazdach TCP/IP.
-\item Stworzenie algorytmów kinematyki napędu różnicowego z uwzględnieniem płynnego narastania prędkości (\textit{ramping}) w celu ochrony mechanicznych elementów układu.
-\item Analizę stabilności połączenia i bezpieczeństwa pracy robota poprzez mechanizmy kontroli stanu klienta (\textit{watchdog}).
+    \item \textbf{Konfiguracja pinów:} Na podstawie pliku \texttt{robotSettings.py} przypisywane są funkcje dla poszczególnych linii GPIO. Wykorzystanie biblioteki \texttt{gpiozero} pozwala na automatyczne ustawienie pinów w bezpiecznych stanach niskich, co zapobiega niekontrolowanym szarpnięciom silników przy starcie.
+    \item \textbf{Instancjonowanie napędów:} Tworzone są trzy obiekty klasy \texttt{Motor} (lewy, prawy oraz wahadło). Dla każdego z nich inicjalizowane są dwa wyjścia cyfrowe (kierunek) oraz jedno wyjście z modulacją PWM (prędkość).
+    \item \textbf{Reset kinematyki:} Obiekt \texttt{DiffDriveKinematics} zeruje wszystkie wewnętrzne bufory prędkości (\texttt{curr\_left}, \texttt{curr\_right}, \texttt{curr\_pend}), przygotowując algorytm rampingu do płynnego startu od wartości zero.
 \end{itemize}
+
+\subsection{Uruchomienie jednostki sterującej i serwera}
+
+Po pomyślnym przygotowaniu sterowników, system przechodzi do inicjalizacji logiki wysokopoziomowej w module \texttt{Controller}. Kontroler ten staje się pośrednikiem między siecią a sprzętem.
+
+Ostatnim ogniwem procedury startowej jest uruchomienie \texttt{CommandServer}. Serwer otwiera gniazdo TCP/IP na porcie 8080 i przechodzi w stan nasłuchiwania (\textit{listening}). W tym momencie robot jest widoczny w sieci lokalnej i oczekuje na pakiet inicjalizujący od aplikacji klienckiej (komputer operatora).
+
+
+
+\subsection{Ustanowienie połączenia i autoryzacja}
+
+Pełna operacyjność systemu następuje po wykonaniu tzw. "uścisku dłoni" (ang. \textit{handshake}) z kontrolerem zewnętrznym:
+\begin{enumerate}
+    \item Klient nawiązuje połączenie TCP.
+    \item Serwer inicjalizuje obiekt \texttt{ClientState}, ustawiając znacznik czasu \texttt{last\_seen} na wartość aktualną.
+    \item Pierwsza odebrana komenda \texttt{PING} potwierdza drożność kanału komunikacyjnego, na co serwer odpowiada komunikatem \texttt{PONG}, sygnalizując gotowość do przyjmowania komend \texttt{MOVE}.
+\end{enumerate}
+
+Wprowadzenie tej wieloetapowej inicjalizacji pozwala na uniknięcie błędów wynikających z prób sterowania niegotowym sprzętem oraz gwarantuje, że robot zareaguje na polecenia tylko wtedy, gdy wszystkie podsystemy pracują poprawnie.

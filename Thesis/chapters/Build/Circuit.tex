@@ -1,0 +1,46 @@
+\section{Moduł zasilający}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/powerModule.png}
+    \caption{Moduł zasilający}
+    \label{fig:powerModule}
+\end{figure}
+
+\section{Komputer i silniki}
+
+Fundamentem technicznym robota jest integracja wydajnej jednostki obliczeniowej z precyzyjnym układem wykonawczym.
+
+\subsection{Jednostka centralna – Raspberry Pi Zero 2W}
+
+Sercem układu sterowania jest minikomputer Raspberry Pi Zero 2W. Wybór tej platformy wynika z jej unikalnych cech:
+\begin{itemize}
+    \item \textbf{Kompaktowe wymiary:} Niewielka obudowa pozwala na montaż elektroniki bezpośrednio na ramie wahadła, co jest kluczowe dla zachowania wyważenia wewnętrznego mechanizmu.
+    \item \textbf{Łączność bezprzewodowa:} Zintegrowany moduł Wi-Fi umożliwia komunikację z komputerem operatora bez potrzeby stosowania zewnętrznych adapterów.
+    \item \textbf{Możliwości sprzętowe:} Wielordzeniowy procesor pozwala na jednoczesną obsługę stosu sieciowego TCP/IP oraz generowanie precyzyjnych sygnałów sterujących silnikami.
+\end{itemize}
+
+\subsection{Układ wykonawczy i mostki H L293D}
+
+Do sterowania silnikami prądu stałego wykorzystano zintegrowane mostki H typu \textbf{L293D}. Wybór ten umożliwia niezależne sterowanie kierunkiem oraz prędkością obrotową dwóch silników przez jeden układ scalony.
+
+
+
+Mostek L293D pracuje w logice cztero-kanałowej i umożliwia:
+\begin{itemize}
+    \item \textbf{Kontrolę kierunku:} Poprzez podanie stanów wysokich i niskich na wejścia binarne (piny \textit{Input}), co odpowiada konfiguracji pinów \textit{Forward} i \textit{Backward} w projekcie.
+    \item \textbf{Regulację prędkości:} Wykorzystanie pinu \textit{Enable} do podania sygnału PWM (Pulse Width Modulation), co pozwala na płynne zarządzanie mocą przekazywaną na silniki.
+    \item \textbf{Zabezpieczenie układu:} Wbudowane diody zabezpieczające chronią elektronikę sterującą przed przepięciami indukowanymi przez cewki silników podczas ich zatrzymywania lub zmiany kierunku.
+\end{itemize}
+
+\subsection{Napęd i zasilanie}
+
+Napęd robota opiera się na trzech silnikach DC: dwóch trakcyjnych, realizujących ruch toczny kuli, oraz jednym silniku wahadła. Ten ostatni, poprzez zmianę położenia masy wewnętrznej, pozwala na dynamiczne sterowanie środkiem ciężkości, co jest kluczowe dla manewrowania jednostką sferyczną.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/hardware.png}
+    \caption{Komputer i silniki}
+    \label{fig:hardware}
+\end{figure}
+

@@ -1,0 +1,29 @@
+\section{Zakończenie i wnioski}
+
+Niniejsza praca inżynierska poświęcona była procesowi projektowania, budowy oraz oprogramowania prototypu robota sferycznego z wewnętrznym układem wahadłowym. Realizacja projektu pozwoliła na zweryfikowanie założeń dotyczących mobilności jednostek kulistych oraz skuteczności sterowania opartego na systemie Linux w zastosowaniach czasu rzeczywistego.
+
+\subsection{Wnioski techniczne}
+
+Na podstawie przeprowadzonych prac oraz testów prototypu sformułowano następujące wnioski:
+\begin{itemize}
+    \item \textbf{Skuteczność napędu wahadłowego:} Mechanizm zmiany środka ciężkości za pomocą wewnętrznego wahadła okazał się efektywnym sposobem na wymuszenie skrętu robota. Połączenie napędu różnicowego półkul z ruchem wahadła pozwala na uzyskanie dużej zwrotności, co jest kluczowe w ciasnych przestrzeniach.
+    \item \textbf{Kluczowa rola rampingu:} Implementacja algorytmu narastania prędkości (\textit{acceleration\_percentage} = 0.1) w module \texttt{kinematics.py} znacząco wpłynęła na stabilność kuli. Bez płynnego przyrostu mocy, gwałtowne ruchy wahadła powodowały oscylacje kuli, utrudniając precyzyjne sterowanie.
+    \item \textbf{Niezawodność TCP/IP:} Wykorzystanie gniazd sieciowych w architekturze klient-serwer zapewniło stabilną komunikację. Mechanizm \textit{watchdog} (klasa \texttt{ClientState}) skutecznie chroni robota przed niekontrolowanym ruchem w przypadku utraty zasięgu sieci Wi-Fi.
+    \item \textbf{Dobór komponentów:} Jednostka Raspberry Pi Zero 2W w połączeniu z mostkami L293D stanowi optymalny balans pomiędzy wydajnością obliczeniową a poborem energii i gabarytami, co jest krytyczne wewnątrz zamkniętej sfery.
+\end{itemize}
+
+\subsection{Kierunki dalszego rozwoju}
+
+Mimo osiągnięcia założonych celów, projekt posiada potencjał do dalszej rozbudowy w następujących obszarach:
+\begin{itemize}
+    \item \textbf{Autonomizacja:} Dodanie czujnika IMU (akcelerometru i żyroskopu) pozwoliłoby na implementację algorytmu aktywnej stabilizacji pionowej wahadła oraz automatyczne korygowanie toru jazdy.
+    \item \textbf{System wizyjny:} Wykorzystanie dedykowanej kamery Raspberry Pi do strumieniowania obrazu w czasie rzeczywistym, co umożliwiłoby sterowanie robotem poza zasięgiem wzroku operatora.
+    \item \textbf{Optymalizacja Shell:} Badania nad nowymi materiałami dla powłoki zewnętrznej (\textit{Shell}), które zwiększyłyby przyczepność na gładkich powierzchniach oraz poprawiłyby odporność na uderzenia.
+    \item \textbf{Integracja z systemem ROS:} Przeniesienie logiki sterowania do środowiska \textit{Robot Operating System}, co ułatwiłoby współpracę z innymi systemami robotycznymi.
+\end{itemize}
+
+
+
+\section*{Podsumowanie końcowe}
+
+Projekt robota kulistego udowodnił, że koncepcja stosowana w najnowocześniejszych jednostkach patrolowych (takich jak chiński RT-G) może zostać z sukcesem zaimplementowana w warunkach laboratoryjnych przy użyciu druku 3D oraz popularnych mikrokontrolerów. Opracowany system stanowi solidną bazę do dalszych badań nad dynamicznie niestabilnymi układami mechanicznymi.

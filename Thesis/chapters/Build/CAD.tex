@@ -1,0 +1,44 @@
+\section{Projekt mechaniczny i modele CAD}
+
+Proces projektowania mechanicznego koncentrował się na zapewnieniu modułowości konstrukcji oraz optymalnym rozmieszczeniu masy wewnątrz sfery. Ze względu na specyfikę napędu wahadłowego, kluczowe było precyzyjne dopasowanie elementów nośnych do geometrii półkul. Poniżej przedstawiono opis głównych komponentów strukturalnych robota.
+
+\subsection{Moduł centralny i napędowy}
+
+Główny szkielet robota stanowią elementy odpowiedzialne za sztywne połączenie elektroniki z układem wykonawczym:
+\begin{itemize}
+    \item \textbf{Obudowa jednostki centralnej (Box):} Centralny punkt robota, pełniący rolę ramy nośnej. Został zaprojektowany jako kontener przechowujący minikomputer Raspberry Pi oraz źródło zasilania w postaci pakietu baterii. 
+    \item \textbf{Obudowy silników trakcyjnych (Motor Box):} Dwa symetryczne moduły montowane po bokach jednostki centralnej. Ich zadaniem jest stabilne osadzenie silników DC odpowiedzialnych za wprawianie półkul w ruch obrotowy.
+    \item \textbf{Łączniki napędu (Bridge):} Elementy pośredniczące (sprzęgła), które przenoszą moment obrotowy bezpośrednio z wałów silników na wewnętrzną strukturę półkul (Shell).
+\end{itemize}
+
+\subsection{Układ wahadła i powłoka zewnętrzna}
+
+Za manewrowość oraz zewnętrzną formę robota odpowiadają następujące podzespoły:
+\begin{itemize}
+    \item \textbf{Zaczep wahadła (Pendulum Hook):} Specjalistyczny wspornik montowany do dolnej części modułu \textit{Box}. Stanowi on punkt montażowy dla trzeciego silnika, który operuje masą wahadła w osi poprzecznej robota.
+    \item \textbf{Układ wahadła (Pendulum):} Składa się z dwóch integralnych części:
+    \begin{itemize}
+        \item \textit{Rękojeść:} Ramię łączące oś silnika z masą roboczą, determinujące promień zataczanego łuku przez wahadło.
+        \item \textit{Młotek:} Obudowa końcowa z możliwością dociążenia zewnętrznymi ciężarkami, co pozwala na eksperymentalny dobór środka ciężkości układu.
+    \end{itemize}
+    \item \textbf{Powłoka sferyczna (Shell):} Zewnętrzna obudowa robota o kształcie kuli. Została zaprojektowana jako konstrukcja złożona z czterech pasujących do siebie segmentów, co znacząco ułatwia proces wytwarzania robota.
+\end{itemize}
+
+\newpage
+
+\section{Modele CAD}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/model1.png}
+    \caption{Model CAD 1}
+    \label{fig:model1}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/model2.png}
+    \caption{Model CAD 2}
+    \label{fig:model5}
+\end{figure}
+
