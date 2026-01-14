@@ -35,9 +35,9 @@ class DiffDriveKinematics:
             left_speed = 0
             right_speed = 0
 
-        self.curr_left = self._approach(self.curr_left, left_speed)
-        self.curr_right = self._approach(self.curr_right, right_speed)
-        self.curr_pend = self._approach(self.curr_pend, pendulum_speed)
+        self.curr_left = self._approach(self.curr_left, left_speed * robotSettings.MAX_SPEED_PERCENTAGE)
+        self.curr_right = self._approach(self.curr_right, right_speed * robotSettings.MAX_SPEED_PERCENTAGE)
+        self.curr_pend = self._approach(self.curr_pend, pendulum_speed * robotSettings.MAX_SPEED_PERCENTAGE)
 
         return self.curr_left, self.curr_right, self.curr_pend
 

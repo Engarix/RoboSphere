@@ -15,7 +15,7 @@ KEY_MAP = {
 class Main:
     def __init__(self):
         try:
-            self.client = CommandClient(host="127.0.0.1", port=8080)
+            self.client = CommandClient(host="10.12.82.132", port=8080)
             while self.client.connected==False:
                 self.client.connect()
                 self.client.send_command(parse_command("PING"))
@@ -36,11 +36,23 @@ class Main:
 
     def keyboard_listener(self):
         last = (0, 0)
+        was_stopped = False
 
         while self.client.connected:
             dx, dy = 0, 0
             any_pressed = False
 
+            # 1. Sprawdzenie spacji (PRIORYTET)
+            if keyboard.is_pressed('space'):
+                if not was_stopped:
+                    print("STOP")
+                    self.client.send_command(parse_command("STOP"))
+                    was_stopped = True
+                    last = (0, 0)  # Resetujemy kierunek po stopie
+                time.sleep(0.05)
+                continue  # Przeskakujemy resztę pętli, póki spacja jest trzymana
+
+            # 2. Sprawdzenie kierunków
             for key in KEY_MAP:
                 if keyboard.is_pressed(key):
                     any_pressed = True
@@ -49,11 +61,14 @@ class Main:
                     dy += vy
 
             current = (dx, dy)
-            if current != last or any_pressed:
+
+            # 3. Wysyłanie komendy ruchu
+            if current != last and any_pressed:
                 cmd = f"MOVE {dx} {dy}"
                 print(f"MOVE {dx} {dy}")
                 self.client.send_command(parse_command(cmd))
                 last = current
+                was_stopped = False
 
             time.sleep(0.05)
 

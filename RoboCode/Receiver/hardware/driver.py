@@ -1,6 +1,6 @@
 from gpiozero import PWMOutputDevice, DigitalOutputDevice
 from config import robotSettings
-from kinematics import DiffDriveKinematics
+from hardware.kinematics import DiffDriveKinematics
 
 class Motor:
     """Obsługa pojedynczego silnika (PWM + 2 piny kierunkowe)"""
