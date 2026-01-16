@@ -38,9 +38,8 @@ Jijo Malayil.
 \newblock URL
   \url{https://www.tme.eu/pl/details/l293d/drivery-silnikowe-i-pwm/stmicroelectronics/}.
 
-\bibitem[Ver()]{gpiozero_docs}
-\emph{Interactive pinout diagram for Raspberry Pi Zero 2 W}.
-\newblock Vercel.
-\newblock URL \url{https://pinouts.vercel.app/board/raspberry-pi-zero-2-w}.
+\bibitem[gpi()]{gpiozero_docs}
+\emph{gpiozero Documentation}.
+\newblock URL \url{https://gpiozero.readthedocs.io/en/stable/}.
 
 \end{thebibliography}
