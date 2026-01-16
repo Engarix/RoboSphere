@@ -22,6 +22,9 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usepackage{float}
+\usepackage{url} % Obsługa linków w bibliografii
+\usepackage[numbers]{natbib} % Lepsze zarządzanie cytowaniami
+\usepackage{etoolbox} % For patching commands (replaces deprecated \addtodef)
 % Allow more floats and flexible page layout (helps with Underfull \vbox)
 \renewcommand{\topfraction}{0.95}
 \renewcommand{\floatpagefraction}{0.9}
@@ -136,11 +139,13 @@ Warszawa, luty, 2026
 \include{chapters/Build/Code}
 \chapter{Inicjalizacja}
 \include{chapters/Start}
+\chapter{Teoria}
+\include{chapters/Details/Theory}
 \chapter{Podsumowanie}
 \include{chapters/Summary}
 
 \newgeometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
 
-\bibliographystyle{plain}
-\bibliography{bibliography}
+\bibliographystyle{unsrtnat}
+\bibliography{Bibliografia}
 \end{document}

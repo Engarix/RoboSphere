@@ -1,0 +1,46 @@
+\begin{thebibliography}{6}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Malayil(2024)]{rtg_robot}
+Jijo Malayil.
+\newblock Rolling justice: Chinas sci-fi spherical robot cop can capture
+  criminals in style.
+\newblock \emph{Interesting Engineering}, 2024.
+\newblock URL
+  \url{https://interestingengineering.com/innovation/chinas-spherical-robot-cop-captures-criminals}.
+
+\bibitem[Pol({\natexlab{a}})]{S9V11MACMA}
+\emph{S9V11MACMA - przetwornica step-up/step-down - 2,5-9V 1,5A - z funkcją
+  odcięcia przy niskim napięciu - Pololu 2868}.
+\newblock Pololu, {\natexlab{a}}.
+\newblock URL
+  \url{https://botland.com.pl/przetwornice-step-up-step-down/10673-s9v11macma-przetwornica-step-upstep-down-25-9v-15a-z-funkcja-odciecia-przy-niskim-napieciu-pololu-2868-5904422305826.html}.
+
+\bibitem[Pol({\natexlab{b}})]{S13V30F5}
+\emph{S13V30F5 - przetwornica step-up/step-down - 5V 3A - Pololu 4082}.
+\newblock Pololu, {\natexlab{b}}.
+\newblock URL
+  \url{https://botland.com.pl/przetwornice-step-up-step-down/19768-s13v30f5-przetwornica-step-upstep-down-5v-3a-pololu-4082-5904422347529.html}.
+
+\bibitem[Ras()]{rpi_zero_2w}
+\emph{Raspberry Pi Zero 2 W Product Brief}.
+\newblock Raspberry Pi Foundation.
+\newblock URL
+  \url{https://datasheets.raspberrypi.com/rpizero2/raspberry-pi-zero-2-w-product-brief.pdf}.
+
+\bibitem[STM()]{l293d_datasheet}
+\emph{L293D STMicroelectronics-IC driver}.
+\newblock STMicroelectronics.
+\newblock URL
+  \url{https://www.tme.eu/pl/details/l293d/drivery-silnikowe-i-pwm/stmicroelectronics/}.
+
+\bibitem[Ver()]{gpiozero_docs}
+\emph{Interactive pinout diagram for Raspberry Pi Zero 2 W}.
+\newblock Vercel.
+\newblock URL \url{https://pinouts.vercel.app/board/raspberry-pi-zero-2-w}.
+
+\end{thebibliography}

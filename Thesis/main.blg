@@ -1,0 +1,68 @@
+This is BibTeX, Version 0.99e
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+Reallocating 'name_of_file' (item size: 1) to 19 items.
+A level-1 auxiliary file: chapters/Entry.aux
+Reallocating 'name_of_file' (item size: 1) to 27 items.
+A level-1 auxiliary file: chapters/Build/Circuit.aux
+Reallocating 'name_of_file' (item size: 1) to 23 items.
+A level-1 auxiliary file: chapters/Build/CAD.aux
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+A level-1 auxiliary file: chapters/Build/Code.aux
+Reallocating 'name_of_file' (item size: 1) to 19 items.
+A level-1 auxiliary file: chapters/Start.aux
+Reallocating 'name_of_file' (item size: 1) to 28 items.
+A level-1 auxiliary file: chapters/Details/Theory.aux
+Reallocating 'name_of_file' (item size: 1) to 21 items.
+A level-1 auxiliary file: chapters/Summary.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: unsrtnat.bst
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+Database file #1: Bibliografia.bib
+Warning--empty year in S9V11MACMA
+Warning--empty year in S13V30F5
+Warning--empty year in rpi_zero_2w
+Warning--empty year in l293d_datasheet
+Warning--empty year in gpiozero_docs
+You've used 6 entries,
+            2481 wiz_defined-function locations,
+            585 strings with 5758 characters,
+and the built_in function-call counts, 1393 in all, are:
+= -- 142
+> -- 7
+< -- 1
++ -- 15
+- -- 2
+* -- 91
+:= -- 189
+add.period$ -- 19
+call.type$ -- 6
+change.case$ -- 7
+chr.to.int$ -- 5
+cite$ -- 11
+duplicate$ -- 98
+empty$ -- 159
+format.name$ -- 3
+if$ -- 306
+int.to.chr$ -- 2
+int.to.str$ -- 7
+missing$ -- 1
+newline$ -- 39
+num.names$ -- 3
+pop$ -- 61
+preamble$ -- 1
+purify$ -- 6
+quote$ -- 0
+skip$ -- 44
+stack$ -- 0
+substring$ -- 17
+swap$ -- 19
+text.length$ -- 0
+text.prefix$ -- 5
+top$ -- 0
+type$ -- 42
+warning$ -- 5
+while$ -- 2
+width$ -- 0
+write$ -- 78
+(There were 5 warnings)

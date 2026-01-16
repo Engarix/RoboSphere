@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  11 JAN 2026 03:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  16 JAN 2026 04:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -922,38 +922,51 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box76
 \@float@everytoks=\toks57
 \@floatcapt=\box77
+) (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip196
+\bibsep=\skip197
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count404
 )
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 66.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 69.
  (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) (main.aux (chapters/Entry.aux) (chapters/Build/Circuit.aux) (chapters/Build/CAD.aux) (chapters/Build/Code.aux) (chapters/Start.aux) (chapters/Summary.aux))
+) (main.aux (chapters/Entry.aux) (chapters/Build/Circuit.aux) (chapters/Build/CAD.aux) (chapters/Build/Code.aux) (chapters/Start.aux) (chapters/Details/Theory.aux) (chapters/Summary.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Info: Redefining \microtypecontext on input line 66.
-Package microtype Info: Applying patch `item' on input line 66.
-Package microtype Info: Applying patch `toc' on input line 66.
-Package microtype Info: Applying patch `eqnum' on input line 66.
-Package microtype Info: Applying patch `footnote' on input line 66.
-Package microtype Info: Applying patch `verbatim' on input line 66.
-LaTeX Info: Redefining \microtypesetup on input line 66.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+
+
+Class memoir Warning: \addtodef is marked deprecated and will be
+(memoir)              removed in 2026, use instead \patchcmd,
+(memoir)              \pretocmd or \apptocmd from the etoolbox package
+(memoir)              (which is autoloaded by the class) on input line 69.
+
+LaTeX Info: Redefining \microtypecontext on input line 69.
+Package microtype Info: Applying patch `item' on input line 69.
+Package microtype Info: Applying patch `toc' on input line 69.
+Package microtype Info: Applying patch `eqnum' on input line 69.
+Package microtype Info: Applying patch `footnote' on input line 69.
+Package microtype Info: Applying patch `verbatim' on input line 69.
+LaTeX Info: Redefining \microtypesetup on input line 69.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -964,24 +977,30 @@ Package microtype Info: Patching command `\showhyphens'.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
- (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
+(C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 ) (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count404
+\scratchcounter=\count405
 \scratchdimen=\dimen344
 \scratchbox=\box78
-\nofMPsegments=\count405
-\nofMParguments=\count406
+\nofMPsegments=\count406
+\nofMParguments=\count407
 \everyMPshowfont=\toks58
-\MPscratchCnt=\count407
+\MPscratchCnt=\count408
 \MPscratchDim=\dimen345
-\MPnumerator=\count408
-\makeMPintoPDFobject=\count409
+\MPnumerator=\count409
+\makeMPintoPDFobject=\count410
 \everyMPtoPDFconversion=\toks59
 ) (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+ (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/grfext\grfext.sty
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
  (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
@@ -1019,8 +1038,8 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count410
-Package hyperref Info: Link coloring OFF on input line 66.
+\c@lstlisting=\count411
+Package hyperref Info: Link coloring OFF on input line 69.
 (main.out) (main.out)
 \@outlinefile=\write5
 \openout5 = `main.out'.
@@ -1028,10 +1047,10 @@ Package hyperref Info: Link coloring OFF on input line 66.
 
 Package pgfplots notification 'compat/show suggested version=true': document has been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
-<images/PJATK_PL_poziom_1.png, id=134, 475.27562pt x 162.35657pt>
+<images/PJATK_PL_poziom_1.png, id=178, 475.27562pt x 162.35657pt>
 File: images/PJATK_PL_poziom_1.png Graphic file (type png)
 <use images/PJATK_PL_poziom_1.png>
-Package pdftex.def Info: images/PJATK_PL_poziom_1.png  used on input line 85.
+Package pdftex.def Info: images/PJATK_PL_poziom_1.png  used on input line 88.
 (pdftex.def)             Requested size: 483.69687pt x 165.23979pt.
 [1
 
@@ -1102,11 +1121,11 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 2.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)) [2
+) [2
 
-]
+]) [3]
 \bbl@ensure@polish {Rozdzia\l } 1.
-[3
+[4
 
 ]
 \openout2 = `chapters/Entry.aux'.
@@ -1115,11 +1134,11 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 40.
  (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)) [4
+)) [5
 
 {C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
 \bbl@ensure@polish {Rozdzia\l } 2.
-[5
+[6
 
 
 
@@ -1127,82 +1146,90 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 \openout2 = `chapters/Build/Circuit.aux'.
 
  (chapters/Build/Circuit.tex
-<images/powerModule.png, id=194, 1132.23pt x 514.92375pt>
+<images/powerModule.png, id=255, 1132.23pt x 514.92375pt>
 File: images/powerModule.png Graphic file (type png)
 <use images/powerModule.png>
 Package pdftex.def Info: images/powerModule.png  used on input line 5.
 (pdftex.def)             Requested size: 364.19667pt x 165.62752pt.
- [6
+ [7
 
- <./images/powerModule.png>]
-<images/hardware.png, id=203, 1115.66812pt x 531.48563pt>
+ <./images/powerModule.png>] [8]
+<images/hardware.png, id=277, 1117.92656pt x 517.935pt>
 File: images/hardware.png Graphic file (type png)
 <use images/hardware.png>
-Package pdftex.def Info: images/hardware.png  used on input line 42.
-(pdftex.def)             Requested size: 364.19667pt x 173.4931pt.
-) [7 <./images/hardware.png>]
+Package pdftex.def Info: images/hardware.png  used on input line 64.
+(pdftex.def)             Requested size: 364.19667pt x 168.72992pt.
+) [9 <./images/hardware.png>]
 \bbl@ensure@polish {Rozdzia\l } 3.
-[8
+[10
 
 
 
 ]
 \openout2 = `chapters/Build/CAD.aux'.
 
- (chapters/Build/CAD.tex [9
-
-]
-<images/model1.png, id=220, 274.77657pt x 302.63063pt>
+ (chapters/Build/CAD.tex
+<images/model1.png, id=289, 274.77657pt x 302.63063pt>
 File: images/model1.png Graphic file (type png)
 <use images/model1.png>
-Package pdftex.def Info: images/model1.png  used on input line 33.
+Package pdftex.def Info: images/model1.png  used on input line 11.
 (pdftex.def)             Requested size: 364.19667pt x 401.1499pt.
-<images/model2.png, id=221, 796.47563pt x 784.43062pt>
+<images/model2.png, id=290, 796.47563pt x 784.43062pt>
 File: images/model2.png Graphic file (type png)
 <use images/model2.png>
-Package pdftex.def Info: images/model2.png  used on input line 40.
+Package pdftex.def Info: images/model2.png  used on input line 18.
 (pdftex.def)             Requested size: 364.19667pt x 358.68796pt.
-<images/Box.png, id=222, 801.74532pt x 670.00313pt>
+ [11
+
+ <./images/model1.png>]
+<images/Box.png, id=298, 801.74532pt x 670.00313pt>
 File: images/Box.png Graphic file (type png)
 <use images/Box.png>
-Package pdftex.def Info: images/Box.png  used on input line 47.
+Package pdftex.def Info: images/Box.png  used on input line 28.
 (pdftex.def)             Requested size: 364.19667pt x 304.36118pt.
-<images/MotorBox.png, id=223, 602.25pt x 663.98062pt>
+ [12 <./images/model2.png>]
+<images/MotorBox.png, id=306, 602.25pt x 663.98062pt>
 File: images/MotorBox.png Graphic file (type png)
 <use images/MotorBox.png>
-Package pdftex.def Info: images/MotorBox.png  used on input line 54.
+Package pdftex.def Info: images/MotorBox.png  used on input line 37.
 (pdftex.def)             Requested size: 364.19667pt x 401.54234pt.
-<images/Bridge.png, id=224, 417.05812pt x 383.18156pt>
+ [13 <./images/Box.png>]
+<images/Bridge.png, id=315, 417.05812pt x 383.18156pt>
 File: images/Bridge.png Graphic file (type png)
 <use images/Bridge.png>
-Package pdftex.def Info: images/Bridge.png  used on input line 61.
+Package pdftex.def Info: images/Bridge.png  used on input line 46.
 (pdftex.def)             Requested size: 364.19667pt x 334.63403pt.
-<images/PendulumHook.png, id=225, 570.63188pt x 481.8pt>
+ [14 <./images/MotorBox.png>]
+<images/PendulumHook.png, id=323, 570.63188pt x 481.8pt>
 File: images/PendulumHook.png Graphic file (type png)
 <use images/PendulumHook.png>
-Package pdftex.def Info: images/PendulumHook.png  used on input line 68.
+Package pdftex.def Info: images/PendulumHook.png  used on input line 61.
 (pdftex.def)             Requested size: 364.19667pt x 307.49814pt.
-<images/Pendulum.png, id=226, 513.41812pt x 666.99188pt>
+ [15 <./images/Bridge.png>]
+<images/Pendulum.png, id=331, 513.41812pt x 666.99188pt>
 File: images/Pendulum.png Graphic file (type png)
 <use images/Pendulum.png>
-Package pdftex.def Info: images/Pendulum.png  used on input line 75.
+Package pdftex.def Info: images/Pendulum.png  used on input line 74.
 (pdftex.def)             Requested size: 364.19667pt x 473.14009pt.
-<images/Shell.png, id=227, 686.565pt x 694.09312pt>
+ [16 <./images/PendulumHook.png>]
+<images/Shell.png, id=339, 686.565pt x 694.09312pt>
 File: images/Shell.png Graphic file (type png)
 <use images/Shell.png>
-Package pdftex.def Info: images/Shell.png  used on input line 82.
+Package pdftex.def Info: images/Shell.png  used on input line 83.
 (pdftex.def)             Requested size: 364.19667pt x 368.18533pt.
-) [10 <./images/model1.png>] [11 <./images/model2.png>] [12 <./images/Box.png>] [13 <./images/MotorBox.png>] [14 <./images/Bridge.png> <./images/PendulumHook.png>] [15 <./images/Pendulum.png>] [16 <./images/Shell.png>]
+ [17 <./images/Pendulum.png>]) [18 <./images/Shell.png>]
 \bbl@ensure@polish {Rozdzia\l } 4.
-[17
+[19
 
 
 
 ]
 \openout2 = `chapters/Build/Code.aux'.
 
- (chapters/Build/Code.tex
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7.
+ (chapters/Build/Code.tex (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 34.
  (C:\Users\ender\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1210,31 +1237,43 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [18
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 36.
+ [20
 
-{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}]) [19]
+] [21] [22]) [23{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}]
 \bbl@ensure@polish {Rozdzia\l } 5.
-[20
+[24
 
 
 
 ]
 \openout2 = `chapters/Start.aux'.
 
- (chapters/Start.tex) [21
+ (chapters/Start.tex) [25
 
 ]
 \bbl@ensure@polish {Rozdzia\l } 6.
-[22
+[26
+
+
+
+]
+\openout2 = `chapters/Details/Theory.aux'.
+
+ (chapters/Details/Theory.tex [27
+
+{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}] [28]) [29]
+\bbl@ensure@polish {Rozdzia\l } 7.
+[30
 
 
 
 ]
 \openout2 = `chapters/Summary.aux'.
 
- (chapters/Summary.tex) [23
+ (chapters/Summary.tex [31
 
-] [24]
+]) [32]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: a4paper
@@ -1267,31 +1306,35 @@ Package microtype Info: Loading generic protrusion settings for font family
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+ (main.bbl) [33
 
-No file main.bbl.
+
+
+
+]
 \tf@toc=\write6
 \openout6 = `main.toc'.
 
-(main.aux (chapters/Entry.aux) (chapters/Build/Circuit.aux) (chapters/Build/CAD.aux) (chapters/Build/Code.aux) (chapters/Start.aux) (chapters/Summary.aux))
+ (main.aux (chapters/Entry.aux) (chapters/Build/Circuit.aux) (chapters/Build/CAD.aux) (chapters/Build/Code.aux) (chapters/Start.aux) (chapters/Details/Theory.aux) (chapters/Summary.aux))
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: BB7954555746C414BE5D08DFD52E7F05;6230.
+(rerunfilecheck)             Checksum: 0BDA4BD068468BF108D0444670D908BA;9338.
  ) 
 Here is how much of TeX's memory you used:
- 39803 strings out of 467871
- 877720 string characters out of 5418376
- 1477150 words of memory out of 5000000
- 67804 multiletter control sequences out of 15000+600000
- 680830 words of font info for 150 fonts, out of 8000000 for 9000
+ 40957 strings out of 467871
+ 892407 string characters out of 5418376
+ 1939786 words of memory out of 5000000
+ 68718 multiletter control sequences out of 15000+600000
+ 691172 words of font info for 165 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,11n,108p,1051b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (24 pages, 1744235 bytes).
+ 99i,12n,108p,1051b,2046s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/ender/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
+Output written on main.pdf (33 pages, 1901793 bytes).
 PDF statistics:
- 377 PDF objects out of 1000 (max. 8388607)
- 83 named destinations out of 1000 (max. 500000)
- 29508 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 729 PDF objects out of 1000 (max. 8388607)
+ 272 named destinations out of 1000 (max. 500000)
+ 36252 words of extra memory for PDF output out of 42996 (max. 10000000)
 

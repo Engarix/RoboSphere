@@ -1,28 +1,111 @@
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    frame=single
+}
+
+
 \section{Aplikacja sterująca (Controller)}
 
 Aplikacja kliencka, uruchamiana na komputerze operatora, pełni rolę interfejsu sterującego, który przekłada interakcje użytkownika na komendy zrozumiałe dla jednostki wykonawczej Raspberry Pi. Architektura oprogramowania została zaprojektowana w sposób wielowątkowy, co zapewnia separację logiki komunikacji sieciowej od procesu monitorowania zdarzeń wejściowych.
 
 \subsection{Architektura klienta i komunikacja sieciowa}
 
-Rdzeniem modułu komunikacyjnego jest klasa \texttt{CommandClient}, odpowiedzialna za zarządzanie niskopoziomowym połączeniem TCP/IP. Implementacja wykorzystuje bibliotekę \texttt{socket} do nawiązywania strumieniowego połączenia z serwerem o określonym adresie IP i porcie (domyślnie 127.0.0.1:8080). Kluczowe funkcjonalności tego modułu obejmują:
+Rdzeniem modułu komunikacyjnego jest klasa \texttt{CommandClient}, odpowiedzialna za zarządzanie niskopoziomowym połączeniem TCP/IP. Implementacja wykorzystuje bibliotekę \texttt{socket} do nawiązywania strumieniowego połączenia z serwerem o określonym adresie IP i porcie.
+
+\begin{lstlisting}[caption={Implementacja klienta sieciowego w pliku client.py}]
+class CommandClient:
+    def __init__(self, host: str, port: int, timeout: float = 0.5):
+        self.host = host
+        self.port = port
+        self.timeout = timeout
+        self.sock = None
+        self.connected = False
+
+    def connect(self):
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.settimeout(self.timeout)
+        self.sock.connect((self.host, self.port))
+        self.connected = True
+\end{lstlisting}
+
+Kluczowe funkcjonalności tego modułu obejmują:
 \begin{itemize}
-    \item \textbf{Zarządzanie sesją:} Automatyczne próby nawiązania połączenia w pętli głównej do momentu uzyskania statusu \texttt{connected}
-    \item \textbf{Serializacja danych:} Wykorzystanie modułu \texttt{protocol.py} do zamiany obiektów klasy \texttt{Command} na sformatowane ciągi znaków (np. \texttt{MOVE 1 0}) zakończone znakiem nowej linii, co jest zgodne z przyjętym standardem komunikacyjnym.
-    \item \textbf{Mechanizm Heartbeat:} Regularne przesyłanie komendy \texttt{PING} w celu weryfikacji aktywności łącza i otrzymywania odpowiedzi \texttt{PONG} od serwera.
+    \item \textbf{Zarządzanie sesją:} Automatyczne próby nawiązania połączenia w pętli głównej do momentu uzyskania statusu \texttt{connected}.
+    \item \textbf{Serializacja danych:} Wykorzystanie modułu \texttt{protocol.py} do zamiany obiektów klasy \texttt{Command} na sformatowane ciągi znaków zakończone znakiem nowej linii.
+\end{itemize}
+
+\begin{lstlisting}[caption={Formatowanie komend w protocol.py}]
+def format_command(cmd: Command) -> bytes:
+    if cmd.name == "MOVE":
+        cmd_str = f"{cmd.name} {cmd.args[0]} {cmd.args[1]}"
+    elif cmd.name == "INFO":
+        cmd_str = f"{cmd.name} {' '.join(cmd.args)}"
+    else:
+        cmd_str = f"{cmd.name}"
+    return (cmd_str + "\n").encode("utf-8")
+\end{lstlisting}
+
+\begin{itemize}
+    \item \textbf{Mechanizm Heartbeat:} Regularne przesyłanie komendy \texttt{PING} w celu weryfikacji aktywności łącza.
 \end{itemize}
 
 \subsection{Przetwarzanie wejścia i mapowanie klawiszy}
 
-Interakcja z robotem odbywa się poprzez przechwytywanie zdarzeń klawiatury w czasie rzeczywistym. Za ten proces odpowiada dedykowany wątek \texttt{keyboard\_listener}, który zapobiega blokowaniu głównej pętli programu przez operacje wejścia/wyjścia.
+Interakcja z robotem odbywa się poprzez przechwytywanie zdarzeń klawiatury w czasie rzeczywistym. Za ten proces odpowiada dedykowany wątek \texttt{keyboard\_listener}. System wykorzystuje mapowanie \texttt{KEY\_MAP}, które przypisuje klawiszom strzałek odpowiednie wartości wektorowe:
 
-System sterowania wykorzystuje mapowanie \texttt{KEY\_MAP}, które przypisuje klawiszom strzałek odpowiednie wartości wektorowe $(dx, dy)$:
-\begin{itemize}
-    \item \textbf{Ruch liniowy:} Klawisze \texttt{up} (1, 0) oraz \texttt{down} (-1, 0) generują komendy jazdy odpowiednio do przodu i do tyłu.
-    \item \textbf{Ruch obrotowy:} Klawisze \texttt{left} (0, -1) oraz \texttt{right} (0, 1) odpowiadają za rotację robota wokół własnej osi.
-    \item \textbf{Sterowanie złożone:} Logika pętli pozwala na sumowanie wektorów przy jednoczesnym wciśnięciu kilku klawiszy (np. góra i lewo), co umożliwia płynne sterowanie kierunkowe pod kątem 45 stopni.
-\end{itemize}
+\begin{lstlisting}[caption={Mapowanie klawiatury w main.py}]
+KEY_MAP = {
+    'up': (1,0),
+    'down': (-1,0),
+    'left': (0,-1),
+    'right': (0,1)
+}
+\end{lstlisting}
 
-W celu optymalizacji pasma sieciowego, aplikacja przesyła nową komendę \texttt{MOVE} tylko w przypadku zmiany stanu wejścia lub wykrycia ciągłego wciśnięcia klawisza, zachowując przy tym interwał 50 ms pomiędzy kolejnymi aktualizacjami. Gwarantuje to wysoką responsywność układu przy minimalnym obciążeniu procesora jednostki Raspberry Pi Zero 2W.
+Logika przetwarzania wejścia uwzględnia priorytet klawisza spacji jako hamulca bezpieczeństwa (komenda \texttt{STOP}) oraz sumowanie wektorów dla ruchów złożonych:
+
+\begin{lstlisting}[caption={Pętla przetwarzania zdarzeń w keyboard\_listener}]
+while self.client.connected:
+    if keyboard.is_pressed('space'):
+        self.client.send_command(parse_command("STOP"))
+        continue
+
+    dx, dy = 0, 0
+    for key in KEY_MAP:
+        if keyboard.is_pressed(key):
+            vx, vy = KEY_MAP[key]
+            dx += vx
+            dy += vy
+
+    current = (dx, dy)
+    if current != last:
+        cmd = f"MOVE {dx} {dy}"
+        self.client.send_command(parse_command(cmd))
+        last = current
+\end{lstlisting}
+
+W celu optymalizacji pasma sieciowego, aplikacja przesyła nową komendę \texttt{MOVE} tylko w przypadku zmiany stanu wejścia, zachowując przy tym interwał 50 ms pomiędzy kolejnymi aktualizacjami.
 
 \section{Oprogramowanie wykonawcze (Receiver)}
 
@@ -30,23 +113,99 @@ Moduł \texttt{Receiver} stanowi kluczowy element systemu, rezydujący bezpośre
 
 \subsection{Architektura serwera i obsługa połączeń}
 
-Za warstwę komunikacyjną odpowiada klasa \texttt{CommandServer}, która inicjalizuje gniazdo sieciowe TCP/IP i nasłuchuje na zadanym porcie (domyślnie 8080). System został zaprojektowany z myślą o obsłudze jednego klienta sterującego w danym momencie, co zapewnia wyłączność nad kontrolą urządzenia.
+Za warstwę komunikacyjną odpowiada klasa \texttt{CommandServer}, która inicjalizuje gniazdo sieciowe TCP/IP i nasłuchuje na zadanym porcie (domyślnie 8080).
+
+\begin{lstlisting}[caption={Inicjalizacja i pętla nasłuchująca serwera w server.py}]
+def start(self):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sock.bind((self.host, self.port))
+        sock.listen(1)
+        print(f"[COMM] Listening on {self.host}:{self.port}")
+
+        while True:
+            conn, addr = sock.accept()
+            self.handle_client(conn)
+\end{lstlisting}
 
 W procesie obsługi klienta zaimplementowano mechanizmy zwiększające niezawodność:
 \begin{itemize}
-    \item \textbf{Analiza strumienia danych:} Dane odbierane przez gniazdo są dekodowane i dzielone na poszczególne linie, co pozwala na poprawne przetwarzanie komend nawet przy spiętrzeniu pakietów w buforze sieciowym.
-    \item \textbf{Zarządzanie stanem połączenia:} Klasa \texttt{ClientState} monitoruje aktywność klienta poprzez rejestrowanie czasu nadejścia ostatniej poprawnej ramki danych.
-    \item \textbf{System bezpieczeństwa (Failsafe):} W przypadku przekroczenia zdefiniowanego limitu czasu oczekiwania (\texttt{SOCKET\_TIMEOUT}), serwer automatycznie wywołuje procedurę zatrzymania silników i resetuje stan sterownika, co zapobiega niekontrolowanemu ruchowi robota po utracie łączności.
+    \item \textbf{Analiza strumienia danych:} Dane są dekodowane i dzielone na poszczególne linie przed przekazaniem do parsera.
+    \item \textbf{Zarządzanie stanem połączenia:} Klasa \texttt{ClientState} monitoruje aktywność poprzez metodę \texttt{update()}.
 \end{itemize}
+
+\begin{lstlisting}[caption={Mechanizm monitorowania aktywności w client\_state.py}]
+class ClientState:
+    def update(self):
+        self.last_seen = time.monotonic()
+        self.active = True
+
+    def expired(self) -> bool:
+        return (time.monotonic() - self.last_seen) > self.timeout
+\end{lstlisting}
+
+\begin{itemize}
+    \item \textbf{System bezpieczeństwa (Failsafe):} Wykrycie przekroczenia czasu oczekiwania skutkuje natychmiastowym zatrzymaniem silników.
+\end{itemize}
+
+\begin{lstlisting}[caption={Logika Failsafe w pętli obsługi klienta (server.py)}]
+try:
+    data = conn.recv(1024)
+    if not data:
+        self.controller.stop()
+        break
+
+except socket.timeout:
+    if self.client_state.expired():
+        self.controller.stop()
+\end{lstlisting}
 
 \subsection{Logika sterowania i warstwa sprzętowa}
 
-Otrzymane komendy tekstowe są parsowane przez moduł \texttt{protocol.py} na obiekty klasy \texttt{Command}, które trafiają do głównego kontrolera robota.
+Otrzymane komendy tekstowe są parsowane na obiekty klasy \texttt{Command}, które trafiają do głównego kontrolera robota. Proces generowania ruchu przebiega w dwóch etapach:
 
-Proces generowania ruchu przebiega w dwóch etapach:
 \begin{enumerate}
-    \item \textbf{Obliczenia kinematyczne:} Klasa \texttt{DiffDriveKinematics} przelicza wektor ruchu $(v, \omega)$ na docelowe prędkości lewego i prawego koła oraz prędkość wahadła (\texttt{pendulum\_speed}). Algorytm uwzględnia specyfikę robota kulistego, gdzie ruch obrotowy przy jeździe liniowej jest wspomagany wychyleniem wewnętrznego wahadła.
-    \item \textbf{Ramping prędkości:} Zastosowano metodę \texttt{\_approach}, która w każdym cyklu pracy zbliża aktualną prędkość silników do wartości docelowej o stały krok określony przez \texttt{ACCELERATION\_PERCENTAGE} (0.1). Pozwala to na uniknięcie gwałtownych szarpnięć, które mogłyby destabilizować ruch kuli lub uszkodzić mechanizmy wewnętrzne.
+    \item \textbf{Obliczenia kinematyczne:} Klasa \texttt{DiffDriveKinematics} przelicza wektor $(v, \omega)$ na prędkości poszczególnych komponentów.
 \end{enumerate}
 
-Bezpośrednią kontrolę nad sprzętem sprawuje moduł \texttt{RobotDriver}, wykorzystujący bibliotekę \texttt{gpiozero}. Klasa \texttt{Motor} abstrahuje sterowanie pojedynczym silnikiem, zarządzając pinami kierunkowymi oraz wypełnieniem sygnału PWM (Pulse Width Modulation) na dedykowanych pinach zdefiniowanych w konfiguracji systemu.
+\begin{lstlisting}[caption={Algorytm przeliczania prędkości w kinematics.py}]
+def calculate_wheel_speeds(self, v: float, omega: float):
+    pendulum_speed = abs(v) * omega
+    if v == 0:
+        left_speed = v + omega
+        right_speed = v - omega
+    
+    self.curr_left = self._approach(self.curr_left, left_speed * MAX_SPEED)
+    self.curr_right = self._approach(self.curr_right, right_speed * MAX_SPEED)
+    return self.curr_left, self.curr_right, self.curr_pend
+\end{lstlisting}
+
+\begin{enumerate}
+    \item \textbf{Ramping prędkości:} Metoda \texttt{\_approach} zapewnia płynne narastanie sygnału PWM.
+\end{enumerate}
+
+\begin{lstlisting}[caption={Implementacja wygładzania ruchu (kinematics.py)}]
+def _approach(self, current, target):
+    if current < target:
+        return min(target, current + robotSettings.ACCELERATION_PERCENTAGE)
+    elif current > target:
+        return max(target, current - robotSettings.ACCELERATION_PERCENTAGE)
+    return target
+\end{lstlisting}
+
+Bezpośrednią kontrolę nad sprzętem sprawuje moduł \texttt{RobotDriver}. Klasa \texttt{Motor} abstrahuje sterowanie sprzętowe przy pomocy biblioteki \texttt{gpiozero} \cite{gpiozero_docs}:
+
+\begin{lstlisting}[caption={Obsługa silników w driver.py}]
+class Motor:
+    def set_speed(self, speed):
+        if speed > 0:
+            self.fwd.on()
+            self.back.off()
+            self.pwm.value = speed
+        elif speed < 0:
+            self.fwd.off()
+            self.back.on()
+            self.pwm.value = abs(speed)
+        else:
+            self.stop()
+\end{lstlisting}

@@ -1,0 +1,128 @@
+\section{Zastosowane algorytmy i ich implementacja}
+
+W niniejszym rozdziale omówiono kluczowe algorytmy sterowania oraz mechanizmy logiczne, które odpowiadają za stabilną pracę robota. Opis obejmuje zarówno podstawy teoretyczne, jak i szczegóły implementacyjne w języku Python.
+
+\subsection{Kinematyka napędu różnicowego i sterowanie wahadłem}
+
+Głównym zadaniem warstwy kinematycznej jest przekształcenie wektora sterującego $(v, \omega)$, gdzie $v \in \{-1, 0, 1\}$ oznacza wejście liniowe, a $\omega \in \{-1, 0, 1\}$ wejście kątowe, na fizyczne sygnały sterujące. W badanym robocie kulistym zastosowano zmodyfikowany model napędu różnicowego zintegrowany z kontrolą wahadła.
+
+\textbf{Teoria i model matematyczny:}
+Prędkości kół ($v_L, v_R$) oraz prędkość wahadła ($v_p$) są wyznaczane w zależności od trybu ruchu. Przyjmując $V_{max}$ jako maksymalne dopuszczalne wypełnienie PWM, relacje te opisują poniższe wzory.
+
+
+
+\begin{enumerate}
+    \item \textbf{Obrót w miejscu ($v = 0$):}
+    Robot wykonuje obrót wokół własnej osi pionowej poprzez przeciwbieżną pracę silników głównych:
+    \begin{equation}
+        v_L = \omega \cdot V_{max}, \quad v_R = -\omega \cdot V_{max}, \quad v_p = 0
+    \end{equation}
+
+    \item \textbf{Jazda do przodu ($v = 1$):}
+    Implementacja wykorzystuje dyskretne mapowanie, które pozwala na sterowanie kierunkowe poprzez redukcję prędkości jednego z kół:
+    \begin{equation}
+        v_L = v \cdot \left( \left\lfloor \frac{v-\omega}{2} \right\rfloor + (v-\omega) \bmod 2 \right) \cdot V_{max}
+    \end{equation}
+    \begin{equation}
+        v_R = v \cdot \left( \left\lfloor \frac{v+\omega}{2} \right\rfloor + (v+\omega) \bmod 2 \right) \cdot V_{max}
+    \end{equation}
+
+    \item \textbf{Jazda do tyłu ($v = -1$):}
+    Analogicznie do jazdy w przód, z uwzględnieniem wartości bezwzględnej dla poprawnego wyznaczenia kierunku obrotu silników:
+    \begin{equation}
+        v_L = v \cdot \left( \left\lfloor \frac{|v+\omega|}{2} \right\rfloor + (v+\omega) \bmod 2 \right) \cdot V_{max}
+    \end{equation}
+    \begin{equation}
+        v_R = v \cdot \left( \left\lfloor \frac{|v-\omega|}{2} \right\rfloor + (v-\omega) \bmod 2 \right) \cdot V_{max}
+    \end{equation}
+\end{enumerate}
+
+
+
+Dodatkowo, dla każdego trybu jazdy z wektorem liniowym ($v \neq 0$), wyznaczana jest prędkość wspomagająca wahadła, która wychyla masę wewnętrzną robota w celu dynamicznej stabilizacji skrętu:
+\begin{equation}
+    v_p = |v| \cdot \omega \cdot V_{max}
+\end{equation}
+
+\newpage
+
+\begin{lstlisting}[caption={Algorytm obliczania prędkości w kinematics.py}]
+def calculate_wheel_speeds(self, v: float, omega: float):
+    # Obliczenie predkosci wspomagajacej wahadla
+    pendulum_speed = abs(v) * omega
+
+    if v == 0: # Obrot w miejscu
+        left_speed = v + omega
+        right_speed = v - omega
+    elif v == 1: # Jazda do przodu z korekta kierunku
+        left_speed = v * ((v-omega)//2 + (v-omega)%2)
+        right_speed = v * ((v+omega)//2 + (v+omega)%2)
+    elif v == -1: # Jazda do tylu z korekta kierunku
+        left_speed = v * (abs(v+omega)//2 + (v+omega)%2)
+        right_speed = v * (abs(v-omega)//2 + (v-omega)%2)
+    
+    # Skalowanie o predkosc maksymalna i aplikacja rampingu
+    self.curr_left = self._approach(self.curr_left, left_speed * robotSettings.MAX_SPEED_PERCENTAGE)
+    self.curr_right = self._approach(self.curr_right, right_speed * robotSettings.MAX_SPEED_PERCENTAGE)
+    self.curr_pend = self._approach(self.curr_pend, pendulum_speed * robotSettings.MAX_SPEED_PERCENTAGE)
+    
+    return self.curr_left, self.curr_right, self.curr_pend
+\end{lstlisting}
+
+\subsection{Algorytm wygładzania ruchu (Soft Start)}
+
+Ze względu na wysoką bezwładność kuli oraz ograniczenia prądowe zasilania (ryzyko spadków napięcia przy rozruchu), zaimplementowano algorytm rampowania prędkości, znany jako \textit{Soft Start}.
+
+\textbf{Teoria:}
+Algorytm nie pozwala na skokową zmianę prędkości silnika. Zamiast tego, w każdym cyklu pętli sterującej, aktualna prędkość ($V_{curr}$) dąży do prędkości zadanej ($V_{target}$) o stały krok $\Delta$, określony parametrem \texttt{ACCELERATION\_PERCENTAGE}. Proces ten można opisać wzorem:
+\begin{equation}
+    V_{t+1} = \text{clamp}(V_{target}, V_t - \Delta, V_t + \Delta)
+\end{equation}
+
+\begin{lstlisting}[caption={Implementacja metody \_approach w kinematics.py}]
+def _approach(self, current, target):
+    if current < target:
+        return min(target, current + robotSettings.ACCELERATION_PERCENTAGE)
+    elif current > target:
+        return max(target, current - robotSettings.ACCELERATION_PERCENTAGE)
+    return target
+\end{lstlisting}
+
+Ten algorytm jest wywoływany cyklicznie w osobnym wątku kontrolera z częstotliwością 20Hz (co 50ms), co zapewnia płynność ruchu i ochronę elektroniki przed nagłymi skokami poboru prądu.
+
+\subsection{Protokół komunikacyjny i parsowanie komend}
+
+Komunikacja między operatorem a robotem opiera się na autorskim protokole tekstowym przesyłanym przez strumień TCP.
+
+\textbf{Teoria:}
+Zastosowano bezstanowy protokół typu \textit{Request-Response} dla zapytań systemowych oraz jednokierunkowy strumień komend dla sterowania ruchem. Każda komenda składa się ze słowa kluczowego (np. \texttt{MOVE}, \texttt{STOP}) oraz opcjonalnych argumentów liczbowych.
+
+\begin{lstlisting}[caption={Logika parsera w protocol.py}]
+def parse_command(raw: str) -> Command:
+    parts = raw.split()
+    name = parts[0].upper()
+
+    if name == "MOVE":
+        v = float(parts[1])
+        omega = float(parts[2])
+        return Command("MOVE", (v, omega))
+    elif name == "STOP":
+        return Command("STOP", ())
+    # (...)
+\end{lstlisting}
+
+\subsection{Algorytm bezpieczeństwa (Failsafe)}
+
+Kluczowym elementem zapewniającym bezpieczeństwo jest algorytm wykrywania utraty łączności (tzw. \textit{Watchdog}).
+
+\textbf{Teoria:}
+Robot monitoruje czas nadejścia ostatniej poprawnej ramki danych. Jeśli odstęp czasu od ostatniej komunikacji przekroczy wartość \texttt{SOCKET\_TIMEOUT}, system uznaje, że połączenie zostało przerwane (np. z powodu zasięgu Wi-Fi) i natychmiastowo zatrzymuje wszystkie procesy ruchowe.
+
+\begin{lstlisting}[caption={Mechanizm Failsafe w server.py}]
+except socket.timeout:
+    if self.client_state.expired():
+        self.controller.stop()
+        self.client_state.reset()
+\end{lstlisting}
+
+Stan aktywności klienta jest zarządzany przez klasę \texttt{ClientState}, która wykorzystuje monotoniczny zegar systemowy do precyzyjnego odmierzania czasu bez ryzyka błędów wynikających ze zmiany godziny systemowej.

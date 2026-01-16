@@ -12,18 +12,32 @@ Na podstawie przeprowadzonych prac oraz testów prototypu sformułowano następu
     \item \textbf{Dobór komponentów:} Jednostka Raspberry Pi Zero 2W w połączeniu z mostkami L293D stanowi optymalny balans pomiędzy wydajnością obliczeniową a poborem energii i gabarytami, co jest krytyczne wewnątrz zamkniętej sfery.
 \end{itemize}
 
+\subsection{Uwagi eksploatacyjne i obserwacje (Notatki obserwatora)}
+
+Podczas testów prototypu odnotowano istotne aspekty wpływające na dynamikę urządzenia, które wynikają z fizycznych ograniczeń konstrukcji:
+
+\begin{itemize}
+    \item \textbf{Zarządzanie budżetem energetycznym:} Zaobserwowano, że robot porusza się ze stosunkowo niską prędkością maksymalną. Jest to wynik celowego ograniczenia programowego poprzez parametr \texttt{MAX\_SPEED\_PERCENTAGE}. Ponieważ pakiet baterii zasila jednocześnie silniki oraz jednostkę obliczeniową Raspberry Pi, zbyt wysoki pobór prądu przez napęd powodował spadki napięcia prowadzące do restartów komputera. Ograniczenie prędkości pozwoliło zapewnić priorytet zasilania dla stabilnej pracy systemu operacyjnego i łączności bezprzewodowej.
+\end{itemize}
+
+
+
+\begin{itemize}
+    \item \textbf{Przyczepność i właściwości powłoki:} Gładka powierzchnia zewnętrznej obudowy (Shell) wykonanej z tworzywa sztucznego nie zapewnia wystarczającego współczynnika tarcia na wielu typach powierzchni. W obecnej formie robot ma trudności z pokonywaniem większych przeszkód terenowych oraz wzniesień, co sugeruje konieczność zastosowania materiałów o wyższej przyczepności lub gumowych pierścieni bieżnych.
+\end{itemize}
+
+
+
 \subsection{Kierunki dalszego rozwoju}
 
 Mimo osiągnięcia założonych celów, projekt posiada potencjał do dalszej rozbudowy w następujących obszarach:
 \begin{itemize}
     \item \textbf{Autonomizacja:} Dodanie czujnika IMU (akcelerometru i żyroskopu) pozwoliłoby na implementację algorytmu aktywnej stabilizacji pionowej wahadła oraz automatyczne korygowanie toru jazdy.
     \item \textbf{System wizyjny:} Wykorzystanie dedykowanej kamery Raspberry Pi do strumieniowania obrazu w czasie rzeczywistym, co umożliwiłoby sterowanie robotem poza zasięgiem wzroku operatora.
-    \item \textbf{Optymalizacja Shell:} Badania nad nowymi materiałami dla powłoki zewnętrznej (\textit{Shell}), które zwiększyłyby przyczepność na gładkich powierzchniach oraz poprawiłyby odporność na uderzenia.
+    \item \textbf{Optymalizacja powłoki:} Badania nad nowymi materiałami dla powłoki zewnętrznej, które zwiększyłyby przyczepność na gładkich powierzchniach oraz poprawiłyby odporność na uderzenia.
     \item \textbf{Integracja z systemem ROS:} Przeniesienie logiki sterowania do środowiska \textit{Robot Operating System}, co ułatwiłoby współpracę z innymi systemami robotycznymi.
 \end{itemize}
 
-
-
 \section*{Podsumowanie końcowe}
 
-Projekt robota kulistego udowodnił, że koncepcja stosowana w najnowocześniejszych jednostkach patrolowych (takich jak chiński RT-G) może zostać z sukcesem zaimplementowana w warunkach laboratoryjnych przy użyciu druku 3D oraz popularnych mikrokontrolerów. Opracowany system stanowi solidną bazę do dalszych badań nad dynamicznie niestabilnymi układami mechanicznymi.
+Projekt robota kulistego udowodnił, że koncepcja stosowana w najnowocześniejszych jednostkach patrolowych (takich jak chiński RT-G \cite{rtg_robot}) może zostać z sukcesem zaimplementowana w warunkach laboratoryjnych przy użyciu druku 3D oraz popularnych mikrokontrolerów. Opracowany system stanowi solidną bazę do dalszych badań nad dynamicznie niestabilnymi układami mechanicznymi.
