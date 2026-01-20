@@ -6,7 +6,7 @@ Prawidłowe funkcjonowanie robota sferycznego wymaga skoordynowanej inicjalizacj
 
 Pierwszym etapem po uruchomieniu skryptu głównego na jednostce Raspberry Pi jest inicjalizacja obiektu klasy \texttt{RobotDriver}. W tym kroku system wykonuje następujące operacje:
 \begin{itemize}
-    \item \textbf{Konfiguracja pinów:} Na podstawie pliku \texttt{robotSettings.py} przypisywane są funkcje dla poszczególnych linii GPIO. Wykorzystanie biblioteki \texttt{gpiozero} pozwala na automatyczne ustawienie pinów w bezpiecznych stanach niskich, co zapobiega niekontrolowanym szarpnięciom silników przy starcie.
+    \item \textbf{Konfiguracja pinów:} Na podstawie pliku \texttt{robotSettings.py} przypisywane są funkcje dla poszczególnych linii GPIO. Wykorzystanie biblioteki \texttt{gpiozero} \cite{gpiozero_docs} pozwala na automatyczne ustawienie pinów w bezpiecznych stanach niskich, co zapobiega niekontrolowanym szarpnięciom silników przy starcie.
     \item \textbf{Instancjonowanie napędów:} Tworzone są trzy obiekty klasy \texttt{Motor} (lewy, prawy oraz wahadło). Dla każdego z nich inicjalizowane są dwa wyjścia cyfrowe (kierunek) oraz jedno wyjście z modulacją PWM (prędkość).
     \item \textbf{Reset kinematyki:} Obiekt \texttt{DiffDriveKinematics} zeruje wszystkie wewnętrzne bufory prędkości (\texttt{curr\_left}, \texttt{curr\_right}, \texttt{curr\_pend}), przygotowując algorytm rampingu do płynnego startu od wartości zero.
 \end{itemize}

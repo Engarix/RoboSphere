@@ -1,11 +1,33 @@
 \section{Moduł zasilający}
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/powerModule.png}
     \caption{Moduł zasilający}
     \label{fig:powerModule}
 \end{figure}
+
+System zasilania robota kulistego został zaprojektowany z uwzględnieniem dwóch priorytetów: zapewnienia stabilnego napięcia dla jednostki logicznej (Raspberry Pi Zero 2W) oraz dostarczenia odpowiedniej mocy dla trzech silników prądu stałego. Ze względu na dużą bezwładność mechaniczną konstrukcji, moduł musi być odporny na nagłe skoki poboru prądu (tzw. inrush current) wywoływane przez silniki.
+
+\subsection{Architektura systemu i separacja napięć}
+
+Źródło zasilania stanowi pakiet ogniw litowo-jonowych (Li-ion). Ze względu na charakterystykę rozładowania tych ogniw oraz ryzyko ich trwałego uszkodzenia przy zbyt niskim napięciu, w systemie zastosowano dwustopniową stabilizację opartą na zaawansowanych regulatorach typu step-up/step-down (buck-boost).
+
+\subsection{Regulator logiki z funkcją ochrony ogniw – S9V11MACMA}
+
+Kluczowym elementem odpowiedzialnym za bezpieczeństwo całego systemu jest regulator Pololu S9V11MACMA \cite{S9V11MACMA}. Jest to układ typu step-up/step-down, który dostarcza stabilne napięcie wyjściowe niezależnie od tego, czy napięcie wejściowe jest wyższe, czy niższe od zadanego poziomu.
+
+W niniejszym projekcie wykorzystano dwie unikalne cechy tego modułu: \begin{itemize} \item \textbf{Regulacja napięcia wyjściowego:} Za pomocą wbudowanego potencjometru wieloobrotowego napięcie wyjściowe ustawiono na poziomie 5.1V, co jest wartością optymalną dla Raspberry Pi, niwelującą spadki napięcia na przewodach zasilających. \item \textbf{Mechanizm Low-Voltage Cutoff:} Drugi potencjometr na module pozwala na precyzyjne ustawienie progu odcięcia zasilania (\textit{cutoff}). W przypadku spadku napięcia na akumulatorze poniżej bezpiecznej granicy (ustalonej na 3.0V na ogniwo), regulator przechodzi w stan uśpienia, odcinając zasilanie od komputera i chroniąc pakiet Li-ion przed głębokim rozładowaniem. \end{itemize}
+
+\subsection{Zasilanie układu wykonawczego – S13V30F5}
+
+Do zasilania mostków H (L293D) oraz silników wykorzystano wysokowydajny regulator Pololu S13V30F5 \cite{S13V30F5}. Wybór tego modułu był podyktowany koniecznością utrzymania stałej dynamiki ruchu robota, niezależnie od stopnia naładowania baterii.
+
+Regulator ten charakteryzuje się: \begin{itemize} \item \textbf{Stałe napięcie 5V:} Zapewnia powtarzalne osiągi silników. Dzięki architekturze step-up/step-down, nawet gdy napięcie pakietu spadnie do 2.8V, silniki wciąż otrzymują pełne 5V, co zapobiega "pływaniu" parametrów sterowania pod koniec cyklu pracy baterii. \item \textbf{Wysoka wydajność prądowa:} Układ oferuje ciągły prąd wyjściowy na poziomie do 3A, co pozwala na jednoczesną pracę dwóch silników napędowych i silnika wahadła w momentach największego obciążenia (start, zmiana kierunku). \end{itemize}
+
+\subsection{Analiza spadków napięcia i bezpieczeństwo operacyjne}
+
+W trakcie testów laboratoryjnych odnotowano, że bez odpowiedniej separacji, nagły rozruch silników powodował chwilowe spadki napięcia (voltage sags), które skutkowały restartem Raspberry Pi. Zastosowanie dwóch niezależnych regulatorów Pololu pozwoliło na stworzenie bufora bezpieczeństwa. Nawet jeśli regulator silników (S13V30F5) chwilowo obciąży baterię, regulator logiki (S9V11MACMA) dzięki szerokiemu zakresowi napięć wejściowych (już od 2V) jest w stanie utrzymać stabilną pracę procesora, co ma krytyczne znaczenie dla bezawaryjnej pracy systemu operacyjnego Linux.
 
 \section{Komputer i silniki}
 
@@ -13,7 +35,7 @@ Fundamentem technicznym robota jest integracja wydajnej jednostki obliczeniowej 
 
 \subsection{Jednostka centralna – Raspberry Pi Zero 2W}
 
-Sercem układu sterowania jest minikomputer Raspberry Pi Zero 2W. Wybór tej platformy wynika z jej unikalnych cech:
+Sercem układu sterowania jest minikomputer Raspberry Pi Zero 2W \cite{rpi_zero_2w}. Wybór tej platformy wynika z jej unikalnych cech:
 \begin{itemize}
     \item \textbf{Kompaktowe wymiary:} Niewielka obudowa pozwala na montaż elektroniki bezpośrednio na ramie wahadła, co jest kluczowe dla zachowania wyważenia wewnętrznego mechanizmu.
     \item \textbf{Łączność bezprzewodowa:} Zintegrowany moduł Wi-Fi umożliwia komunikację z komputerem operatora bez potrzeby stosowania zewnętrznych adapterów.
@@ -22,7 +44,7 @@ Sercem układu sterowania jest minikomputer Raspberry Pi Zero 2W. Wybór tej pla
 
 \subsection{Układ wykonawczy i mostki H L293D}
 
-Do sterowania silnikami prądu stałego wykorzystano zintegrowane mostki H typu \textbf{L293D}. Wybór ten umożliwia niezależne sterowanie kierunkiem oraz prędkością obrotową dwóch silników przez jeden układ scalony.
+Do sterowania silnikami prądu stałego wykorzystano zintegrowane mostki H typu \textbf{L293D} \cite{l293d_datasheet}. Wybór ten umożliwia niezależne sterowanie kierunkiem oraz prędkością obrotową dwóch silników przez jeden układ scalony.
 
 
 
