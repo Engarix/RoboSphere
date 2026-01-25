@@ -158,6 +158,7 @@ try:
 except socket.timeout:
     if self.client_state.expired():
         self.controller.stop()
+        self.client_state.reset()
 \end{lstlisting}
 
 \subsection{Logika sterowania i warstwa sprzętowa}
@@ -174,9 +175,20 @@ def calculate_wheel_speeds(self, v: float, omega: float):
     if v == 0:
         left_speed = v + omega
         right_speed = v - omega
-    
-    self.curr_left = self._approach(self.curr_left, left_speed * MAX_SPEED)
-    self.curr_right = self._approach(self.curr_right, right_speed * MAX_SPEED)
+    elif v == 1:
+        left_speed = v * ((v-omega)//2 + (v-omega)%2)
+        right_speed = v * ((v+omega)//2 + (v+omega)%2)
+    elif v == -1:
+        left_speed = v * (abs(v+omega)//2 + (v+omega)%2)
+        right_speed = v * (abs(v-omega)//2 + (v-omega)%2)
+    else:
+        left_speed = 0
+        right_speed = 0
+
+    self.curr_left = self._approach(self.curr_left, left_speed * robotSettings.MAX_SPEED_PERCENTAGE)
+    self.curr_right = self._approach(self.curr_right, right_speed * robotSettings.MAX_SPEED_PERCENTAGE)
+    self.curr_pend = self._approach(self.curr_pend, pendulum_speed * robotSettings.MAX_SPEED_PERCENTAGE)
+
     return self.curr_left, self.curr_right, self.curr_pend
 \end{lstlisting}
 

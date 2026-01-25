@@ -13,6 +13,12 @@ Jijo Malayil.
 \newblock URL
   \url{https://interestingengineering.com/innovation/chinas-spherical-robot-cop-captures-criminals}.
 
+\bibitem[Ras()]{rpi_zero_2w}
+\emph{Raspberry Pi Zero 2 W Product Brief}.
+\newblock Raspberry Pi Foundation.
+\newblock URL
+  \url{https://datasheets.raspberrypi.com/rpizero2/raspberry-pi-zero-2-w-product-brief.pdf}.
+
 \bibitem[Pol({\natexlab{a}})]{S9V11MACMA}
 \emph{S9V11MACMA - przetwornica step-up/step-down - 2,5-9V 1,5A - z funkcją
   odcięcia przy niskim napięciu - Pololu 2868}.
@@ -25,12 +31,6 @@ Jijo Malayil.
 \newblock Pololu, {\natexlab{b}}.
 \newblock URL
   \url{https://botland.com.pl/przetwornice-step-up-step-down/19768-s13v30f5-przetwornica-step-upstep-down-5v-3a-pololu-4082-5904422347529.html}.
-
-\bibitem[Ras()]{rpi_zero_2w}
-\emph{Raspberry Pi Zero 2 W Product Brief}.
-\newblock Raspberry Pi Foundation.
-\newblock URL
-  \url{https://datasheets.raspberrypi.com/rpizero2/raspberry-pi-zero-2-w-product-brief.pdf}.
 
 \bibitem[STM()]{l293d_datasheet}
 \emph{L293D STMicroelectronics-IC driver}.

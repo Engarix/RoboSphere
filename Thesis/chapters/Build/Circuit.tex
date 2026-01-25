@@ -7,27 +7,35 @@
     \label{fig:powerModule}
 \end{figure}
 
-System zasilania robota kulistego został zaprojektowany z uwzględnieniem dwóch priorytetów: zapewnienia stabilnego napięcia dla jednostki logicznej (Raspberry Pi Zero 2W) oraz dostarczenia odpowiedniej mocy dla trzech silników prądu stałego. Ze względu na dużą bezwładność mechaniczną konstrukcji, moduł musi być odporny na nagłe skoki poboru prądu (tzw. inrush current) wywoływane przez silniki.
+System zasilania robota kulistego został zaprojektowany z uwzględnieniem dwóch priorytetów: zapewnienia stabilnego napięcia dla jednostki logicznej (Raspberry Pi Zero 2W \cite{rpi_zero_2w}) oraz dostarczenia odpowiedniej mocy dla trzech silników prądu stałego. Ze względu na dużą bezwładność mechaniczną konstrukcji, moduł musi być odporny na nagłe skoki poboru prądu (tzw. inrush current) wywoływane przez silniki.
 
 \subsection{Architektura systemu i separacja napięć}
 
 Źródło zasilania stanowi pakiet ogniw litowo-jonowych (Li-ion). Ze względu na charakterystykę rozładowania tych ogniw oraz ryzyko ich trwałego uszkodzenia przy zbyt niskim napięciu, w systemie zastosowano dwustopniową stabilizację opartą na zaawansowanych regulatorach typu step-up/step-down (buck-boost).
 
-\subsection{Regulator logiki z funkcją ochrony ogniw – S9V11MACMA}
+\subsection{Zasilanie układu z funkcją ochrony ogniw – S9V11MACMA}
 
-Kluczowym elementem odpowiedzialnym za bezpieczeństwo całego systemu jest regulator Pololu S9V11MACMA \cite{S9V11MACMA}. Jest to układ typu step-up/step-down, który dostarcza stabilne napięcie wyjściowe niezależnie od tego, czy napięcie wejściowe jest wyższe, czy niższe od zadanego poziomu.
+Kluczowym elementem odpowiedzialnym za bezpieczeństwo całego układu jest regulator Pololu S9V11MACMA \cite{S9V11MACMA}. Jest to układ typu step-up/step-down, który dostarcza stabilne napięcie wyjściowe niezależnie od tego, czy napięcie wejściowe jest wyższe, czy niższe od zadanego poziomu do całego układu. Służy do zasilania mostków H (L293D) oraz silników.
 
-W niniejszym projekcie wykorzystano dwie unikalne cechy tego modułu: \begin{itemize} \item \textbf{Regulacja napięcia wyjściowego:} Za pomocą wbudowanego potencjometru wieloobrotowego napięcie wyjściowe ustawiono na poziomie 5.1V, co jest wartością optymalną dla Raspberry Pi, niwelującą spadki napięcia na przewodach zasilających. \item \textbf{Mechanizm Low-Voltage Cutoff:} Drugi potencjometr na module pozwala na precyzyjne ustawienie progu odcięcia zasilania (\textit{cutoff}). W przypadku spadku napięcia na akumulatorze poniżej bezpiecznej granicy (ustalonej na 3.0V na ogniwo), regulator przechodzi w stan uśpienia, odcinając zasilanie od komputera i chroniąc pakiet Li-ion przed głębokim rozładowaniem. \end{itemize}
+W niniejszym projekcie wykorzystano dwie unikalne cechy tego modułu: 
+\begin{itemize} 
+    \item \textbf{Regulacja napięcia wyjściowego:} Za pomocą wbudowanego potencjometru wieloobrotowego napięcie wyjściowe ustawiono na poziomie 9V, które jest jego najwyższą możliwą wartością wyjściową.
+    \item \textbf{Mechanizm Low-Voltage Cutoff:} Drugi potencjometr na module pozwala na precyzyjne ustawienie progu odcięcia zasilania (\textit{cutoff}). W przypadku spadku napięcia na akumulatorze poniżej bezpiecznej granicy (6V), regulator przechodzi w stan uśpienia, odcinając zasilanie do reszty robota i chroniąc baterie Li-ion przed rozładowaniem. 
+\end{itemize}
 
-\subsection{Zasilanie układu wykonawczego – S13V30F5}
+\subsection{Regulator logiki – S13V30F5}
 
-Do zasilania mostków H (L293D) oraz silników wykorzystano wysokowydajny regulator Pololu S13V30F5 \cite{S13V30F5}. Wybór tego modułu był podyktowany koniecznością utrzymania stałej dynamiki ruchu robota, niezależnie od stopnia naładowania baterii.
+Do poprawnego zasilania mikrokontrolera Raspberry Pi Zero 2W \cite{rpi_zero_2w} wykorzystano wysokowydajny regulator Pololu S13V30F5 \cite{S13V30F5}. Wybór tego modułu był konieczny do zagwarantowania stabilnej pracy jednostki obliczeniowej, zwłaszcza podczas nagłych skoków poboru prądu przez silniki.
 
-Regulator ten charakteryzuje się: \begin{itemize} \item \textbf{Stałe napięcie 5V:} Zapewnia powtarzalne osiągi silników. Dzięki architekturze step-up/step-down, nawet gdy napięcie pakietu spadnie do 2.8V, silniki wciąż otrzymują pełne 5V, co zapobiega "pływaniu" parametrów sterowania pod koniec cyklu pracy baterii. \item \textbf{Wysoka wydajność prądowa:} Układ oferuje ciągły prąd wyjściowy na poziomie do 3A, co pozwala na jednoczesną pracę dwóch silników napędowych i silnika wahadła w momentach największego obciążenia (start, zmiana kierunku). \end{itemize}
+Regulator ten charakteryzuje się: 
+\begin{itemize} 
+    \item \textbf{Stałe napięcie 5V:} Zapewnia stabilne napięcie 5 wymagane przez Raspberry Pi, nawet w warunkach dynamicznego obciążenia.
+    \item \textbf{Wysoka wydajność prądowa:} Układ oferuje ciągły prąd wyjściowy na poziomie do 3A, co pozwala na bezproblemowe zasilanie komputera oraz innych komponentów elektronicznych.
+\end{itemize}
 
 \subsection{Analiza spadków napięcia i bezpieczeństwo operacyjne}
 
-W trakcie testów laboratoryjnych odnotowano, że bez odpowiedniej separacji, nagły rozruch silników powodował chwilowe spadki napięcia (voltage sags), które skutkowały restartem Raspberry Pi. Zastosowanie dwóch niezależnych regulatorów Pololu pozwoliło na stworzenie bufora bezpieczeństwa. Nawet jeśli regulator silników (S13V30F5) chwilowo obciąży baterię, regulator logiki (S9V11MACMA) dzięki szerokiemu zakresowi napięć wejściowych (już od 2V) jest w stanie utrzymać stabilną pracę procesora, co ma krytyczne znaczenie dla bezawaryjnej pracy systemu operacyjnego Linux.
+W trakcie testów laboratoryjnych odnotowano, że bez odpowiedniej separacji, nagły rozruch silników powodował chwilowe spadki napięcia, które skutkowały restartem Raspberry Pi. Zastosowanie dwóch niezależnych regulatorów Pololu pozwoliło na stworzenie bufora bezpieczeństwa. Nawet jeśli silniki chwilowo obciążą baterię, regulator logiki (S13V30F5) dzięki szerokiemu zakresowi napięć wejściowych jest w stanie utrzymać stabilną pracę procesora, co ma krytyczne znaczenie dla bezawaryjnej pracy systemu operacyjnego Linux.
 
 \section{Komputer i silniki}
 
@@ -37,18 +45,18 @@ Fundamentem technicznym robota jest integracja wydajnej jednostki obliczeniowej 
 
 Sercem układu sterowania jest minikomputer Raspberry Pi Zero 2W \cite{rpi_zero_2w}. Wybór tej platformy wynika z jej unikalnych cech:
 \begin{itemize}
-    \item \textbf{Kompaktowe wymiary:} Niewielka obudowa pozwala na montaż elektroniki bezpośrednio na ramie wahadła, co jest kluczowe dla zachowania wyważenia wewnętrznego mechanizmu.
+    \item \textbf{Kompaktowe wymiary:} Niewielka obudowa pozwala na montaż elektroniki wewnątrz ograniczonej przestrzeni robota kulistego.
     \item \textbf{Łączność bezprzewodowa:} Zintegrowany moduł Wi-Fi umożliwia komunikację z komputerem operatora bez potrzeby stosowania zewnętrznych adapterów.
     \item \textbf{Możliwości sprzętowe:} Wielordzeniowy procesor pozwala na jednoczesną obsługę stosu sieciowego TCP/IP oraz generowanie precyzyjnych sygnałów sterujących silnikami.
 \end{itemize}
 
 \subsection{Układ wykonawczy i mostki H L293D}
 
-Do sterowania silnikami prądu stałego wykorzystano zintegrowane mostki H typu \textbf{L293D} \cite{l293d_datasheet}. Wybór ten umożliwia niezależne sterowanie kierunkiem oraz prędkością obrotową dwóch silników przez jeden układ scalony.
+Do sterowania silnikami wykorzystano zintegrowane mostki H typu \textbf{L293D} \cite{l293d_datasheet}. Umożliwiają niezależne sterowanie kierunkiem oraz prędkością obrotową dwóch silników przez jeden układ scalony.
 
 
 
-Mostek L293D pracuje w logice cztero-kanałowej i umożliwia:
+Mostek L293D pracuje w logice dwukanałowej i umożliwia:
 \begin{itemize}
     \item \textbf{Kontrolę kierunku:} Poprzez podanie stanów wysokich i niskich na wejścia binarne (piny \textit{Input}), co odpowiada konfiguracji pinów \textit{Forward} i \textit{Backward} w projekcie.
     \item \textbf{Regulację prędkości:} Wykorzystanie pinu \textit{Enable} do podania sygnału PWM (Pulse Width Modulation), co pozwala na płynne zarządzanie mocą przekazywaną na silniki.
@@ -57,7 +65,7 @@ Mostek L293D pracuje w logice cztero-kanałowej i umożliwia:
 
 \subsection{Napęd i zasilanie}
 
-Napęd robota opiera się na trzech silnikach DC: dwóch trakcyjnych, realizujących ruch toczny kuli, oraz jednym silniku wahadła. Ten ostatni, poprzez zmianę położenia masy wewnętrznej, pozwala na dynamiczne sterowanie środkiem ciężkości, co jest kluczowe dla manewrowania jednostką sferyczną.
+Napęd robota opiera się na trzech silnikach DC: dwóch trakcyjnych, realizujących ruch toczny kuli, oraz jednym silniku wahadła. Ten ostatni, poprzez zmianę położenia masy wewnętrznej, pozwala na dynamiczne sterowanie środkiem ciężkości, co jest kluczowe dla manewrowania jednostką.
 
 \begin{figure}[ht]
     \centering

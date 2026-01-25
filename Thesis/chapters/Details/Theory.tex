@@ -60,6 +60,9 @@ def calculate_wheel_speeds(self, v: float, omega: float):
     elif v == -1: # Jazda do tylu z korekta kierunku
         left_speed = v * (abs(v+omega)//2 + (v+omega)%2)
         right_speed = v * (abs(v-omega)//2 + (v-omega)%2)
+    else:
+        left_speed = 0
+        right_speed = 0
     
     # Skalowanie o predkosc maksymalna i aplikacja rampingu
     self.curr_left = self._approach(self.curr_left, left_speed * robotSettings.MAX_SPEED_PERCENTAGE)
